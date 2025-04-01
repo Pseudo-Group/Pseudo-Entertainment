@@ -10,11 +10,11 @@ class Model:
 
     @staticmethod
     def get_openai_single_model(temperature=0.1):
-        return ChatOpenAI(model="gpt-4o-2024-11-20", temperature=temperature)
+        return ChatOpenAI(model="gpt-4o-mini", temperature=temperature)
 
     @staticmethod
     def get_openai_multi_model(temperature=0.1):
-        return ChatOpenAI(model="gpt-4o-2024-11-20", temperature=temperature)
+        return ChatOpenAI(model="gpt-4o-mini", temperature=temperature)
 
     @staticmethod
     def get_rerank_model():

@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from muse_chat.chat_modules.state import GraphState
+from agents.graph_state import GraphState
 
 
-class Base(ABC):
+class BaseNode(ABC):
     """
     모든 RAG 파이프라인 기본 클래스
     """

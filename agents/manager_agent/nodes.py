@@ -1,12 +1,12 @@
 import math
 
-from muse_chat.chat_modules.base import Base
-from muse_chat.chat_modules.chain import Chain
-from muse_chat.chat_modules.model import Model
-from muse_chat.chat_modules.state import GraphState
+from agents.base_node import BaseNode
+from agents.graph_state import GraphState
+from agents.manager_agent.chain import Chain
+from agents.model import Model
 
 
-class Single2HyDENode(Base):
+class Single2HyDENode(BaseNode):
     """가상의 문서를 생성하는 노드"""
 
     def __init__(self, **kwargs):
@@ -19,7 +19,7 @@ class Single2HyDENode(Base):
         return {"hypothetical_doc": hypothetical_doc}
 
 
-class Multi2HyDENode(Base):
+class Multi2HyDENode(BaseNode):
     """가상의 문서를 생성하는 노드"""
 
     def __init__(self, **kwargs):
@@ -34,7 +34,7 @@ class Multi2HyDENode(Base):
         return {"hypothetical_doc": hypothetical_doc}
 
 
-class EmbedderNode(Base):
+class EmbedderNode(BaseNode):
     """문서 임베딩을 생성하는 노드"""
 
     def __init__(self, **kwargs):
@@ -47,7 +47,7 @@ class EmbedderNode(Base):
         return {"embedding": embedding}
 
 
-class MongoRetrieverNode(Base):
+class MongoRetrieverNode(BaseNode):
     """MongoDB에서 유사한 문서를 검색하는 노드"""
 
     def __init__(
@@ -89,7 +89,7 @@ class MongoRetrieverNode(Base):
         return {"documents": documents}
 
 
-class MongoAggregationNode(Base):
+class MongoAggregationNode(BaseNode):
     """문서를 집계하는 노드"""
 
     def __init__(self, collection=None, **kwargs):
@@ -123,7 +123,7 @@ class MongoAggregationNode(Base):
         return {"aggregated_documents": aggregated_documents}
 
 
-class SimilarityRerankerNode(Base):
+class SimilarityRerankerNode(BaseNode):
     """문서 유사도를 기반으로 재정렬하는 노드"""
 
     def __init__(self, **kwargs):
@@ -157,7 +157,7 @@ class SimilarityRerankerNode(Base):
         return {"reranked_documents": reranked_documents}
 
 
-class PopularityRerankerNode(Base):
+class PopularityRerankerNode(BaseNode):
     """인기도를 기반으로 재정렬하는 노드"""
 
     def __init__(self, **kwargs):
@@ -221,7 +221,7 @@ class PopularityRerankerNode(Base):
             }
 
 
-class HighSimilarityGeneratorNode(Base):
+class HighSimilarityGeneratorNode(BaseNode):
     """유사도가 높은 경우의 응답을 생성하는 노드"""
 
     def __init__(self, **kwargs):
@@ -248,7 +248,7 @@ class HighSimilarityGeneratorNode(Base):
             return {"response": "죄송합니다. 응답을 생성하는 중 오류가 발생했습니다."}
 
 
-class LowSimilarityGeneratorNode(Base):
+class LowSimilarityGeneratorNode(BaseNode):
     """유사도가 낮은 경우의 응답을 생성하는 노드"""
 
     def __init__(self, **kwargs):
@@ -274,7 +274,7 @@ class LowSimilarityGeneratorNode(Base):
             return {"response": "죄송합니다. 응답을 생성하는 중 오류가 발생했습니다."}
 
 
-class ReWriterNode(Base):
+class ReWriterNode(BaseNode):
     """문서를 재작성하는 노드"""
 
     def __init__(self, **kwargs):
@@ -290,7 +290,7 @@ class ReWriterNode(Base):
         return {"hypothetical_doc": rewritten_doc}
 
 
-class JudgeNode(Base):
+class JudgeNode(BaseNode):
     """사용자 쿼리를 평가하고 Rerank 시키는 노드"""
 
     def __init__(self, **kwargs):
@@ -310,7 +310,7 @@ class JudgeNode(Base):
         return {"judge_answer": judge_answer}
 
 
-class SupervisorNode(Base):
+class SupervisorNode(BaseNode):
     """입력 유형을 감지하고 적절한 처리 경로를 결정하는 노드"""
 
     def __init__(self, **kwargs):
