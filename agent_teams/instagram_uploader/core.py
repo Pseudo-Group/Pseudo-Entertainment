@@ -1,6 +1,3 @@
-import os
-
-from dotenv import load_dotenv
 from instagrapi import Client
 
 
