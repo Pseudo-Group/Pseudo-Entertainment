@@ -1,8 +1,8 @@
 from langchain.schema.runnable import RunnablePassthrough, RunnableSerializable
 from langchain_core.output_parsers import StrOutputParser
 
-from agents.model import Model
-from agents.text.modules.prompt import PersonaPrompt
+from agents.models import Model
+from agents.text.modules.prompts import PersonaPrompt
 
 
 class PersonaChain:

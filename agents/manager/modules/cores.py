@@ -1,9 +1,11 @@
 import math
 
 from agents.base_node import BaseNode
-from agents.main_state import GraphState
-from agents.manager_agent.modules.chain import Chain
-from agents.model import Model
+from agents.manager.modules.chains import Chain
+from agents.manager.modules.state import GraphState
+from agents.models import Model
+
+"""아래는 전부 예시 코드들입니다."""
 
 
 class Single2HyDENode(BaseNode):

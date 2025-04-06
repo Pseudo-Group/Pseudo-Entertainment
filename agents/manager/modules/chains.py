@@ -4,8 +4,8 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 
-from agents.manager_agent.prompt import Prompt
-from agents.model import Model
+from agents.manager.modules.prompts import Prompt
+from agents.models import Model
 
 
 class Chain:

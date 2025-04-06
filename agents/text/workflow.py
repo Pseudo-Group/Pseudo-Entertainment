@@ -2,8 +2,8 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from agents.base_graph import BaseGraph
-from agents.text.modules.core import PersonaExtractionNode
-from agents.text.modules.graph_state import GraphState
+from agents.text.modules.cores import PersonaExtractionNode
+from agents.text.modules.state import GraphState
 
 
 class TextGraph(BaseGraph):

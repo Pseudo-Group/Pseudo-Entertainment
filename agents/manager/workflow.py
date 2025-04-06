@@ -2,7 +2,7 @@ from langgraph.graph import StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from agents.base_graph import BaseGraph
-from agents.manager_agent.modules.graph_state import GraphState
+from agents.manager.modules.state import GraphState
 
 
 class ManangerGraph(BaseGraph):
