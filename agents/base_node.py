@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from agents.graph_state import GraphState
+from agents.main_state import GraphState
 
 
 class BaseNode(ABC):

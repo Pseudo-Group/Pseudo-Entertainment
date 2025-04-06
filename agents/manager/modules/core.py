@@ -1,8 +1,8 @@
 import math
 
 from agents.base_node import BaseNode
-from agents.graph_state import GraphState
-from agents.manager_agent.chain import Chain
+from agents.main_state import GraphState
+from agents.manager_agent.modules.chain import Chain
 from agents.model import Model
 
 

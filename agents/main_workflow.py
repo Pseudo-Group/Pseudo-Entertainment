@@ -1,6 +1,6 @@
 from langgraph.graph import StateGraph
 
-from agents.graph_state import GraphState
+from agents.main_state import GraphState
 
 
 class MuseChatGraph:

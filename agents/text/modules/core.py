@@ -1,6 +1,6 @@
 from agents.base_node import BaseNode
-from agents.graph_state import GraphState
-from agents.persona_agent.chain import PersonaChain
+from agents.main_state import GraphState
+from agents.text.modules.chain import PersonaChain
 
 
 class PersonaExtractionNode(BaseNode):
