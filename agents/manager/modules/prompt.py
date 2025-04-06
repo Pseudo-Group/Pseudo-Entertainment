@@ -7,9 +7,10 @@ class Prompt:
     @staticmethod
     def get_hyde_multi_prompt():
         multi_hyde_template = """You are an expert exhibition recommender.
-Given a user query and the provided images, create a detailed hypothetical exhibition description that would best match what the user is looking for.
+Given a user query and the provided images, create a detailed hypothetical exhibition description that would best match
+what the user is looking for.
 Focus on aspects like the exhibition theme, style, atmosphere, and target audience.
-Consider both the textual query and the visual elements in the provided images. 
+Consider both the textual query and the visual elements in the provided images.
 
 All responses must be in Korean.
 
@@ -24,8 +25,9 @@ Create a detailed exhibition description:"""
     @staticmethod
     def get_hyde_single_prompt():
         single_hyde_template = """You are an expert exhibition recommender.
-Given a user query, create a detailed hypothetical exhibition description that would best match what the user is looking for.
-Focus on aspects like the exhibition theme, style, atmosphere, and target audience. 
+Given a user query, create a detailed hypothetical exhibition description that would best match what the user is
+looking for.
+Focus on aspects like the exhibition theme, style, atmosphere, and target audience.
 
 All responses must be in Korean.
 
@@ -40,7 +42,8 @@ Create a detailed exhibition description:"""
     @staticmethod
     def get_rewrite_prompt():
         rewrite_template = """You are an expert at rewriting queries to find alternative exhibition recommendations.
-Given the original query and the hypothetical document that didn't satisfy the user, rewrite the query to find different but relevant exhibitions.
+Given the original query and the hypothetical document that didn't satisfy the user, rewrite the query to find
+different but relevant exhibitions.
 Consider changing the perspective, focus, or emphasis while maintaining the core intent.
 
 All responses must be in Korean.
@@ -134,7 +137,8 @@ Please generate an alternative recommendation response:"""
 
     @staticmethod
     def get_judge_prompt():
-        judge_template = """You are an expert in analyzing user conversation history and current questions to generate appropriate responses.
+        judge_template = """You are an expert in analyzing user conversation history and current questions to generate
+appropriate responses.
 Use the following analysis process internally only, DO NOT include it in your final response.
 
 [Initial Validation]
@@ -207,7 +211,8 @@ Step 4: Final Decision [Integration Node]
 6. Otherwise:
    - Return "No"
 
-Final Response (Without analysis process, generate Korean response if relevant and answerable using ONLY provided information, otherwise return "No"):"""
+Final Response (Without analysis process, generate Korean response if relevant and answerable using ONLY provided
+information, otherwise return "No"):"""
         return PromptTemplate(
             template=judge_template,
             input_variables=["query", "chat_history", "documents"],
@@ -216,7 +221,8 @@ Final Response (Without analysis process, generate Korean response if relevant a
     @staticmethod
     def get_history_title_prompt():
         prompt_template = """You are an assistant tasked with generating concise titles for user prompts.
-The title should briefly summarize the essence of the prompt and be suitable for displaying in a sidebar as a history entry.
+The title should briefly summarize the essence of the prompt and be suitable for displaying in a sidebar as a history
+entry.
 Ensure the title is short, clear, and emphasizes the main idea of the prompt.
 Avoid using special characters like '**', '*' or Markdown-style formatting.
 Create a title that is relevant to the exhibition. All responses must be in Korean.

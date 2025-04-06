@@ -4,12 +4,14 @@ from langchain.schema.runnable import RunnablePassthrough
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 
-from muse_chat.chat_modules.model import Model
-from muse_chat.chat_modules.prompt import Prompt
+from agents.manager_agent.prompt import Prompt
+from agents.model import Model
 
 
 class Chain:
-    """LCEL 체인 저장소"""
+    """
+    LCEL 체인 저장소
+    """
 
     @staticmethod
     def set_hyde_chain(mode: str):
