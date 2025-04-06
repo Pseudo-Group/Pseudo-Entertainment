@@ -1,5 +1,5 @@
 from agents.base_node import BaseNode
-from agents.main_state import GraphState
+from agents.manager.modules.state import GraphState
 
 
 class Supervisor(BaseNode):
