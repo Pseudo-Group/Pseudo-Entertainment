@@ -177,3 +177,5 @@ pyrightconfig.json
 .vscode
 
 test*
+
+.langgraph_api
