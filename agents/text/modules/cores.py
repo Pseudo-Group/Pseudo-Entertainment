@@ -18,4 +18,5 @@ class PersonaExtractionNode(BaseNode):
                 "content_type": state["content_type"],
             }
         )
-        return {"extracted_persona": extracted_persona}
+        state["response"].append({"extracted_persona": extracted_persona})
+        return state
