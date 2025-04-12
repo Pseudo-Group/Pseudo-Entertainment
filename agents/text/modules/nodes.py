@@ -1,4 +1,3 @@
-from agents.base_node import BaseNode
 from agents.text.modules.chains import PersonaChain
 from agents.text.modules.state import GraphState
 
@@ -18,5 +17,5 @@ class PersonaExtractionNode(BaseNode):
                 "content_type": state["content_type"],
             }
         )
-        state["response"].append({"extracted_persona": extracted_persona})
-        return state
+        
+        return {"response" extracted_persona}
