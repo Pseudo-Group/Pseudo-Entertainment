@@ -1,0 +1,18 @@
+[project]
+name = "pseudo-entertainment"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "langchain>=0.3.23",
+  "langgraph>=0.3.27",
+  "langchain-community>=0.2.17",
+  "python-dotenv>=1.0.1",
+]
+
+[dependency-groups]
+dev = ["ipykernel>=6.29.5", "langgraph-cli[inmem]>=0.2.3"]
+
+[tool.uv.workspace]
+members = ["agents/text"]

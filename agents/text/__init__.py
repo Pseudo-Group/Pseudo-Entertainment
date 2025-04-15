@@ -1,3 +1,3 @@
-from text.workflow import graph
+from agents.text.workflow import text_workflow
 
-__all__ = ["graph"]
+__all__ = ["text_workflow"]

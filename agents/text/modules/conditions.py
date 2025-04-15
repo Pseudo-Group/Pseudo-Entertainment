@@ -1,49 +1,24 @@
-from agents.base_node import BaseNode
-from agents.main_state import GraphState
+# from typing import Literal
 
 
-class Supervisor(BaseNode):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.name = "Supervisor"
+# def router(state) -> Literal["__end__", "tools"]:
+#     """모델의 출력을 기반으로 다음 노드를 결정합니다.
 
-    def process(self, state: GraphState) -> str:
-        if state["image"]:
-            return "multi_modal_input"
-        return "single_modal_input"
+#         이 함수는 모델의 마지막 메시지가 도구 호출을 포함하는지 확인합니다.
 
+#         매개변수:
+#                 state (State): 대화의 현재 상태.
 
-class CheckSimilarity(BaseNode):
-    def __init__(self, threshold=0.65, **kwargs):
-        super().__init__(**kwargs)
-        self.name = "CheckSimilarity"
-        self.threshold = threshold
-
-    def process(self, state: GraphState) -> str:
-        try:
-            # 점수 정보에서 최대 점수 확인
-            max_score = state["reranked_documents"][0].get("score", 0)
-            print(
-                f"CheckSimilarity - Max Score: {max_score}, Threshold: {self.threshold}"
-            )
-
-            # 임계값을 넘는지 확인
-            if max_score >= self.threshold:
-                return "high_similarity"
-            return "low_similarity"
-        except Exception as e:
-            print(f"Error in CheckSimilarity: {e}")
-            return "low_similarity"
-
-
-class CheckAnswer(BaseNode):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.name = "CheckAnswer"
-
-    def process(self, state: GraphState) -> str:
-        judge_answer = state["judge_answer"][-1].content
-        print(f"CheckAnswer - Judge Answer: {judge_answer}")
-        if judge_answer == "No":
-            return "no"
-        return "yes"
+#             반환:
+#                 str: 호출할 **다음 노드의 이름** (이 예제에선 "__end__" 노드 또는 "tools" 노드).
+#     """
+#     last_message = state.messages[-1]
+#     if not isinstance(last_message, AIMessage):
+#         raise ValueError(
+#             f"Expected AIMessage in output edges, but got {type(last_message).__name__}"
+#         )
+#     # 도구 호출이 없으면 완료합니다
+#     if not last_message.tool_calls:
+#         return "__end__"
+#     # 그렇지 않으면 요청된 작업을 실행합니다
+#     return "tools"

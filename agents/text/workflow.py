@@ -1,26 +1,29 @@
-from langgraph.graph import END, START, StateGraph
-from langgraph.graph.state import CompiledStateGraph
+from langgraph.graph import StateGraph
 
-from agents.base_graph import BaseGraph
-from agents.text.modules.cores import PersonaExtractionNode
-from agents.text.modules.state import GraphState
+from agents.base_workflow import BaseWorkflow
+from agents.text.modules.nodes import PersonaExtractionNode
+from agents.text.modules.state import TextState
 
 
-class TextGraph(BaseGraph):
-    """
-    본 프로젝트에서 Sub-graph는 각 Agent의 workflow 혹은 pipeline을 구성하는 그래프를 의미합니다.
-    해당 클래스는 LangGraph의 StateGraph를 구성하고 컴파일하는 역할을 담당합니다.
-    """
-
+class TextWorkflow(BaseWorkflow):
     def __init__(self):
-        self.graph = self._build_graph()
+        super().__init__()
 
-    def _build_graph(self):
-        sub_graph = StateGraph(GraphState)
-        sub_graph.add_node("persona_extraction", PersonaExtractionNode())
-        sub_graph.add_edge(START, "persona_extraction")
-        sub_graph.add_edge("persona_extraction", END)
-        return sub_graph
+    def build_workflow(self):
+        builder = StateGraph(TextState)
+        builder.add_node("persona_extraction", PersonaExtractionNode())
+        builder.add_edge("__start__", "persona_extraction")
+        builder.add_edge("persona_extraction", "__end__")
+        # builder.add_conditional_edges(
+        #     "call_model",
+        #     # call_model 실행이 완료된 후, 다음 노드(들)는
+        #     # router의 출력을 기반으로 예약됩니다
+        #     router,
+        # )
+        workflow = builder.compile()
+        workflow.name = self.name
 
-    def compile(self) -> CompiledStateGraph:
-        return self.graph.compile()
+        return workflow
+
+
+text_workflow = TextWorkflow()

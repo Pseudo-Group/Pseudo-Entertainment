@@ -1,30 +1,20 @@
 from abc import ABC, abstractmethod
 
-from agents.main_state import GraphState
-
 
 class BaseNode(ABC):
-    """
-    모든 RAG 파이프라인 기본 클래스
-    """
-
-    def __init__(self, verbose: bool = False, **kwargs):
+    def __init__(self, **kwargs):
         self.name = self.__class__.__name__
-        self.verbose = verbose
+        self.verbose = kwargs.get("verbose", False)
 
     @abstractmethod
-    def process(self, state: GraphState) -> GraphState:
+    def execute(self, state) -> dict:
         pass
 
-    def log(self, message: str, **kwargs):
+    def logging(self, method_name, **kwargs):
         if self.verbose:
-            print(f"{type}: {self.name}: {message}")
+            print(f"[{self.name}] {method_name}")
             for key, value in kwargs.items():
                 print(f"{key}: {value}")
 
-    def __call__(self, state: GraphState) -> GraphState:
-        print(f"Calling {self.name}")
-        result = self.process(state)
-        if self.verbose:
-            print(f"state after {self.name}: {state}")
-        return result
+    def __call__(self, state):
+        return self.execute(state)

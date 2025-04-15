@@ -1,5 +1,5 @@
-from agents.text.modules.chains import PersonaChain
-from agents.text.modules.state import GraphState
+from agents.base_node import BaseNode
+from agents.text.modules.chains import set_extraction_chain
 
 
 class PersonaExtractionNode(BaseNode):
@@ -7,15 +7,14 @@ class PersonaExtractionNode(BaseNode):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.name = self.__class__.__name__
-        self.chain = PersonaChain.set_extraction_chain()
+        self.chain = set_extraction_chain()
 
-    def process(self, state: GraphState) -> GraphState:
+    def execute(self, state) -> dict:
         extracted_persona = self.chain.invoke(
             {
                 "content_topic": state["content_topic"],
                 "content_type": state["content_type"],
             }
         )
-        
-        return {"response" extracted_persona}
+
+        return {"response": extracted_persona}
