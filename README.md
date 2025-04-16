@@ -49,11 +49,17 @@ $ uv sync --all-packages
 
 #### \* 또는 특정 패키지만 설치하고 싶을 때
 
-- pyproject.toml의 [tool.uv.workspace]설정을 참고하여 PACKAGE NAME에 기입
+- pyproject.toml의 [tool.uv.workspace] 설정을 참고하여 PACKAGE NAME에 기입
 
 ```bash
 $ uv sync --package <PACKAGE NAME>
 ```
+
+> ex) text의 경우
+>
+> ```bash
+> $ uv sync --package text
+> ```
 
 - langgraph.json에 노드 수정 (예:Text만 설치할 경우)
 
