@@ -1,13 +1,23 @@
 [project]
-name = "pseudo-entertainment-company"
+name = "pseudo-entertainment"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
-    "langchain>=0.3.23",
-    "langchain-openai>=0.3.12",
-    "langgraph>=0.3.27",
-    "langgraph-api>=0.0.48",
-    "langgraph-cli[inmem]>=0.1.89",
+  "langchain>=0.3.23",
+  "langgraph>=0.3.27",
+  "langchain-community>=0.2.17",
+  "python-dotenv>=1.0.1",
+  "pre-commit>=4.2.0",
 ]
+
+[dependency-groups]
+dev = ["ipykernel>=6.29.5", "langgraph-cli[inmem]>=0.2.3"]
+
+[tool.pyright]
+include = ["agents", "tests"]
+exclude = ["**/__pycache__/*", "**/node_modules/*", ".venv", "**/.venv"]
+
+[tool.uv.workspace]
+members = ["agents/text", "agents/music", "agents/image"]
