@@ -40,25 +40,29 @@ $ uv venv
 ```
 
 #### 4. 개발 환경 셋팅
+
 전체 패키지를 전부 설치하고 싶을 때
 
 ```bash
 $ uv sync --all-packages
 ```
 
-#### * 또는 특정 패키지만 설치하고 싶을 때 
+#### \* 또는 특정 패키지만 설치하고 싶을 때
+
 - pyproject.toml의 [tool.uv.workspace]설정을 참고하여 PACKAGE NAME에 기입
 
 ```bash
 $ uv sync --package <PACKAGE NAME>
 ```
+
 - langgraph.json에 노드 수정 (예:Text만 설치할 경우)
+
 ```json
 {
   "dependencies": ["."],
   "graphs": {
     "main": "./agents/workflow.py:main_workflow",
-    "text": "./agents/text/workflow.py:text_workflow",
+    "text": "./agents/text/workflow.py:text_workflow"
     // "music": "./agents/music/workflow.py:music_workflow",
     // "image": "./agents/image/workflow.py:image_workflow"
   },
@@ -93,7 +97,44 @@ $ uv run langgraph dev
 ![](media/LangGraph_Studio_after_invoke.png)
 
 4. 터미널에서 종료
+
 - window: `ctrl + c`, macOS: `cmd + c`
+
+### 코드 스타일 및 품질 관리
+
+프로젝트는 pre-commit을 사용하여 코드 스타일과 품질을 관리합니다. 다음 툴들이 자동으로 실행됩니다:
+
+- **flake8**: 코드 품질 검사
+- **black**: 코드 포맷팅
+- **isort**: import 문 정렬
+- **uv-lock**: 의존성 파일 동기화
+
+#### pre-commit 설정
+
+1. pre-commit 설치 및 초기화:
+
+```bash
+$ uv pip install pre-commit
+$ pre-commit install
+```
+
+2. 모든 파일에 대해 수동으로 실행:
+
+```bash
+$ pre-commit run --all-files
+```
+
+3. 커밋 시 자동 실행:
+
+```bash
+$ git commit -m "your commit message"
+```
+
+> 참고:
+>
+> - pre-commit은 커밋 전에 자동으로 실행되며, 검사에 실패하면 커밋이 중단됩니다. 모든 검사를 통과해야만 커밋이 완료됩니다.
+> - VSCode나 Cursor의 Git Graph를 사용하여 커밋할 때도 pre-commit이 자동으로 실행됩니다.
+> - Git 클라이언트와 관계없이 모든 커밋 시점에서 pre-commit이 동작합니다.
 
 ### 💡 **NOTE**:
 
