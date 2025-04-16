@@ -8,10 +8,11 @@
 이 예시 코드는 ReAct 패턴에서 LLM의 출력에 따라 다음 노드를 결정하는 라우터 함수를 보여줍니다.
 
 Workflow가 확장됨에 따라 다양한 조건부 라우팅 함수를 이 모듈에 추가할 수 있습니다.
-예를 들어, 콘텐츠 유형에 따른 라우팅, 사용자 요청 유형에 따른 라우팅 등을 구현할 수 있습니다.
+예를 들어, 이미지 스타일에 따른 라우팅, 사용자 요청 유형에 따른 라우팅 등을 구현할 수 있습니다.
 """
 
 # from typing import Literal
+# from langchain_core.messages import AIMessage
 
 
 # def router(state) -> Literal["__end__", "tools"]:

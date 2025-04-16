@@ -15,4 +15,4 @@ dependencies = [
 dev = ["ipykernel>=6.29.5", "langgraph-cli[inmem]>=0.2.3"]
 
 [tool.uv.workspace]
-members = ["agents/text"]
+members = ["agents/text", "agents/music", "agents/image"]

@@ -10,7 +10,7 @@ Pseudo Entertainment Company는 LangGraph와 LangChain을 활용한 AI 기반 �
 
 - AI 기반 콘텐츠 생성
 - 페르소나 기반 콘텐츠 최적화
-- LangGraph를 활용한 워크플로우 관리
+- LangGraph를 활용한 Workflow 관리
 
 ## 설치 방법
 
@@ -22,40 +22,57 @@ Pseudo Entertainment Company는 LangGraph와 LangChain을 활용한 AI 기반 �
 
 ### 설치 절차
 
-1. 저장소 클론
+#### 1. 저장소 클론
 
 ```bash
 $ git clone https://github.com/Pseudo-Group/Pseudo-Entertainment.git
 $ cd pseudo-entertainment-company
 ```
 
-2. uv 설치 (아직 설치되지 않은 경우)
+#### 2. uv 설치 (아직 설치되지 않은 경우)
 
 [🔗 uv 설치 방법 링크](https://docs.astral.sh/uv/getting-started/installation/)
 
-3. 가상 환경 셋팅
+#### 3. 가상 환경 셋팅
 
 ```bash
 $ uv venv
 ```
 
-4. 개발 환경 셋팅
+#### 4. 개발 환경 셋팅
 전체 패키지를 전부 설치하고 싶을 때
+
 ```bash
 $ uv sync --all-packages
 ```
-또는 특정 패키지만 설치하고 싶을 때 pyproject.toml의 [tool.uv.workspace]설정을 참고하여 PACKAGE NAME에 기입
+
+#### * 또는 특정 패키지만 설치하고 싶을 때 
+- pyproject.toml의 [tool.uv.workspace]설정을 참고하여 PACKAGE NAME에 기입
+
 ```bash
 $ uv sync --package <PACKAGE NAME>
 ```
+- langgraph.json에 노드 수정 (예:Text만 설치할 경우)
+```json
+{
+  "dependencies": ["."],
+  "graphs": {
+    "main": "./agents/workflow.py:main_workflow",
+    "text": "./agents/text/workflow.py:text_workflow",
+    // "music": "./agents/music/workflow.py:music_workflow",
+    // "image": "./agents/image/workflow.py:image_workflow"
+  },
+  "env": ".env"
+}
+```
 
-1. LangGraph 서버 실행
+#### 5. LangGraph 서버 실행
 
 ```bash
 $ uv run langgraph dev
 ```
 
-서버가 실행되면 다음 URL에서 접근할 수 있습니다:
+### 서버가 실행되면 다음 URL에서 접근할 수 있습니다:
 
 - API: http://127.0.0.1:2024
 - Studio UI: https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024

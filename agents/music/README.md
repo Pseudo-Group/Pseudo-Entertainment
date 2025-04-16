@@ -1,8 +1,8 @@
-# 텍스트 모듈 (Text Module)
+# 음악 모듈 (Music Module)
 
 ## 개요
 
-이 모듈은 Pseudo Entertainment Company의 텍스트 기반 콘텐츠 생성을 담당하는 LangGraph Workflow입니다. 다양한 유형의 텍스트 콘텐츠를 생성하기 위한 주요 노드와 Workflow를 제공합니다.
+이 모듈은 Pseudo Entertainment Company의 음악 기반 콘텐츠 생성을 담당하는 LangGraph Workflow입니다. 다양한 장르와 분위기의 음악 콘텐츠를 생성하기 위한 주요 노드와 Workflow를 제공합니다.
 
 ## 주요 노드
 
@@ -11,7 +11,7 @@
 ## 구조
 
 ```
-text/
+music/
 ├── modules/            # 모듈 구성 요소
 │   ├── chains.py      # LangChain 체인 정의
 │   ├── conditions.py  # 조건부 라우팅 함수
@@ -23,26 +23,23 @@ text/
 │   └── utils.py       # 유틸리티 함수
 ├── pyproject.toml     # 프로젝트 관리자
 ├── README.md          # 이 문서
-└── workflow.py        # Text Agent의 Workflow들 정의
+└── workflow.py        # Music Agent의 Workflow들 정의
 ```
 
 ## 사용 방법
 
-텍스트 Workflow는 다음과 같이 사용할 수 있습니다:
+음악 Workflow는 다음과 같이 사용할 수 있습니다:
 
 ```python
-from agents.text.workflow import text_workflow
+from agents.music.workflow import music_workflow
 
 # 초기 상태 설정
 initial_state = {
-    "content_topic": "여름 휴가",  # 콘텐츠 주제
-    "content_type": "블로그 글",  # 콘텐츠 유형
-    "query": "여름 휴가 계획",    # 사용자 쿼리
     "response": []               # 응답 메시지 (빈 리스트로 초기화)
 }
 
 # Workflow 실행
-result = text_workflow().invoke(initial_state)
+result = music_workflow().invoke(initial_state)
 ```
 
 ## 확장 방법
