@@ -33,35 +33,26 @@ $ cd pseudo-entertainment-company
 
 [🔗 uv 설치 방법 링크](https://docs.astral.sh/uv/getting-started/installation/)
 
-3. 개발 환경 활성화
+3. 가상 환경 셋팅
 
 ```bash
-$ uv venv .venv
-$ source .venv/bin/activate
-$ (.venv)  # 가상 환경 활성화 완료
+$ uv venv
 ```
 
-5. 프로젝트 의존성 설치(최신화)
-
+4. 개발 환경 셋팅
+전체 패키지를 전부 설치하고 싶을 때
 ```bash
-$ uv sync
+$ uv sync --all-packages
+```
+또는 특정 패키지만 설치하고 싶을 때 pyproject.toml의 [tool.uv.workspace]설정을 참고하여 PACKAGE NAME에 기입
+```bash
+$ uv sync --package <PACKAGE NAME>
 ```
 
-## 사용 방법
-
-1. 개발 환경 활성화 확인(개발 환경 활성화를 한 경우에는 건너뜁니다.)
+1. LangGraph 서버 실행
 
 ```bash
-$ uv venv .venv
-$ source .venv/bin/activate
-$ (.venv)  # 가상 환경 활성화 완료
-```
-
-2. LangGraph 서버 실행
-
-```bash
-$ (.venv) uv sync  # 의존성 설치
-$ (.venv) uv run langgraph dev
+$ uv run langgraph dev
 ```
 
 서버가 실행되면 다음 URL에서 접근할 수 있습니다:
@@ -78,18 +69,14 @@ $ (.venv) uv run langgraph dev
 
 3. 변수에 따른 값 입력 후 실행
 
-- 각 Agent 별 `GraphState`에 정의된 Attribute에 따라 변수를 입력합니다.
-- `GraphState`는 `agents/{agent_type}/modules/state.py:GraphState`에서 개별 관리됩니다.
+- 각 Agent 별 `State`에 정의된 Attribute에 따라 변수를 입력합니다.
+- `GraphState`는 `agents/{agent_type}/modules/state.py:{state_name}`에서 개별 관리됩니다.
 
 **실행 화면**
 ![](media/LangGraph_Studio_after_invoke.png)
 
 4. 터미널에서 종료
 - window: `ctrl + c`, macOS: `cmd + c`
-
-## 프로젝트 참여 방법
-
-**TODO: 업데이트 필요**
 
 ### 💡 **NOTE**:
 

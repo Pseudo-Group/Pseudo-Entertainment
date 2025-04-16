@@ -6,11 +6,12 @@ from agents.text.modules.state import TextState
 
 
 class TextWorkflow(BaseWorkflow):
-    def __init__(self):
+    def __init__(self, state: StateGraph):
         super().__init__()
+        self.state = state
 
-    def build_workflow(self):
-        builder = StateGraph(TextState)
+    def build(self):
+        builder = StateGraph(self.state)
         builder.add_node("persona_extraction", PersonaExtractionNode())
         builder.add_edge("__start__", "persona_extraction")
         builder.add_edge("persona_extraction", "__end__")
@@ -26,4 +27,4 @@ class TextWorkflow(BaseWorkflow):
         return workflow
 
 
-text_workflow = TextWorkflow()
+text_workflow = TextWorkflow(TextState)
