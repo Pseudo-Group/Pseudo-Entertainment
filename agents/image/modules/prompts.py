@@ -4,21 +4,20 @@
 기본적으로 PromptTemplate을 사용하여 프롬프트 템플릿을 생성하고 반환합니다.
 """
 
-from langchain_core.prompts import PromptTemplate
-
+# from langchain_core.prompts import PromptTemplate
 
 # def get_image_generation_prompt():
 #     """
 #     이미지 생성을 위한 프롬프트 템플릿을 생성합니다.
-#     
-#     프롬프트는 LLM에게 사용자 쿼리에 맞는 이미지 생성 방법과 
+#
+#     프롬프트는 LLM에게 사용자 쿼리에 맞는 이미지 생성 방법과
 #     이미지 특성을 설명하도록 지시합니다. 생성된 이미지 설명은 한국어로 반환됩니다.
-#     
+#
 #     Returns:
 #         PromptTemplate: 이미지 생성을 위한 프롬프트 템플릿 객체
 #     """
 #     # 이미지 생성을 위한 프롬프트 템플릿 정의
-#     image_generation_template = """당신은 이미지 생성 전문가로서 다양한 스타일과 주제의 이미지를 설명하고 
+#     image_generation_template = """당신은 이미지 생성 전문가로서 다양한 스타일과 주제의 이미지를 설명하고
 # 생성하는 데 전문성을 가지고 있습니다. 다음 정보를 바탕으로 이미지를 생성해 주세요:
 
 # 사용자 요청: {query}
@@ -35,7 +34,7 @@ from langchain_core.prompts import PromptTemplate
 # 모든 응답은 한국어로 작성해 주세요.
 
 # 생성된 이미지 설명:"""
-#     
+#
 #     # PromptTemplate 객체 생성 및 반환
 #     return PromptTemplate(
 #         template=image_generation_template,  # 정의된 프롬프트 템플릿

@@ -7,6 +7,7 @@
 from agents.base_node import BaseNode
 from agents.text.modules.chains import set_extraction_chain
 
+
 class PersonaExtractionNode(BaseNode):
     """
     콘텐츠 종류에 적합한 페르소나를 추출하는 노드
@@ -25,7 +26,7 @@ class PersonaExtractionNode(BaseNode):
         extracted_persona = self.chain.invoke(
             {
                 "content_topic": state["content_topic"],  # 콘텐츠 주제
-                "content_type": state["content_type"],   # 콘텐츠 유형
+                "content_type": state["content_type"],  # 콘텐츠 유형
             }
         )
 
