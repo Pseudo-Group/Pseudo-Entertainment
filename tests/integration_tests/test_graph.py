@@ -33,6 +33,6 @@ async def test_agent_simple_passthrough() -> None:
         None
     """
     # 그래프에 간단한 입력 값 전달
-    res = await main_workflow.ainvoke({"response": "some_val"})
+    res = await main_workflow().ainvoke({"response": "some_val"})
     # 결과가 None이 아닌지 확인
     assert res is not None

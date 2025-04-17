@@ -19,7 +19,7 @@ class MusicWorkflow(BaseWorkflow):
     BaseWorkflow를 상속받아 기본 구조를 구현하고, MusicState를 사용하여 상태를 관리합니다.
     """
 
-    def __init__(self, state: StateGraph):
+    def __init__(self, state):
         super().__init__()
         self.state = state
 

@@ -12,7 +12,7 @@ class MainWorkflow(BaseWorkflow):
     이 클래스는 모든 Agentic Workflow를 바탕으로 주요 Workflow를 정의합니다.
     """
 
-    def __init__(self, state: StateGraph):
+    def __init__(self, state):
         """
         Args:
             state (StateGraph): Workflow에서 사용할 상태 클래스
