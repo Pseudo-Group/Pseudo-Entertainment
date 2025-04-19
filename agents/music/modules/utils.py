@@ -17,10 +17,10 @@
 # def extract_music_metadata(file_path: str) -> Optional[Dict[str, Any]]:
 #     """
 #     오디오 파일에서 메타데이터를 추출합니다.
-    
+
 #     Args:
 #         file_path (str): 오디오 파일 경로
-        
+
 #     Returns:
 #         Optional[Dict[str, Any]]: 추출된 메타데이터 (아티스트, 앨범, 제목 등)
 #     """
@@ -37,10 +37,10 @@
 # def format_duration(seconds: int) -> str:
 #     """
 #     초 단위 시간을 'MM:SS' 형식으로 변환합니다.
-    
+
 #     Args:
 #         seconds (int): 초 단위 시간
-        
+
 #     Returns:
 #         str: 'MM:SS' 형식의 시간 문자열
 #     """

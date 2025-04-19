@@ -14,15 +14,15 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 # def set_image_generation_chain() -> RunnableSerializable:
 #     """
 #     이미지 생성에 사용할 LangChain 체인을 생성합니다.
-#     
+#
 #     체인은 다음 단계로 구성됩니다:
 #     1. 입력에서 query를 추출하여 프롬프트에 전달
 #     2. 프롬프트 템플릿에 값을 삽입하여 최종 프롬프트 생성
 #     3. LLM을 호출하여 이미지 생성 수행
 #     4. 결과를 문자열로 변환
-#     
+#
 #     이 함수는 이미지 생성 노드에서 사용됩니다.
-#     
+#
 #     Returns:
 #         RunnableSerializable: 실행 가능한 체인 객체
 #     """

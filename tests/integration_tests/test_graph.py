@@ -21,18 +21,18 @@ from agents import main_workflow
 async def test_agent_simple_passthrough() -> None:
     """
     에이전트 그래프의 기본 패스스루 기능을 테스트합니다.
-    
+
     이 테스트는 그래프가 입력 값을 올바르게 처리하고 결과를 반환하는지 확인합니다.
     간단한 입력 딕셔너리를 그래프에 전달하고 결과가 None이 아닌지 검증합니다.
-    
+
     테스트 단계:
     1. 그래프에 간단한 입력 값 전달
     2. 결과가 None이 아닌지 확인
-    
+
     Returns:
         None
     """
     # 그래프에 간단한 입력 값 전달
-    res = await main_workflow.ainvoke({"response": "some_val"})
+    res = await main_workflow().ainvoke({"response": "some_val"})
     # 결과가 None이 아닌지 확인
     assert res is not None

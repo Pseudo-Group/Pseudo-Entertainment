@@ -4,24 +4,23 @@
 기본적으로 PromptTemplate을 사용하여 프롬프트 템플릿을 생성하고 반환합니다.
 """
 
-from langchain_core.prompts import PromptTemplate
-
+# from langchain_core.prompts import PromptTemplate
 
 # def get_music_generation_prompt():
 #     """
 #     음악 생성을 위한 프롬프트 템플릿을 생성합니다.
-    
+
 #     1. 음악 장르: 생성할 음악의 장르 (예: 클래식, 팝, 재즈 등)
 #     2. 음악 분위기: 생성할 음악의 분위기 (예: 활기찬, 차분한, 슬픈 등)
-    
-#     프롬프트는 LLM에게 주어진 장르와 분위기에 맞는 음악 생성 방법과 
+
+#     프롬프트는 LLM에게 주어진 장르와 분위기에 맞는 음악 생성 방법과
 #     음악적 특성을 설명하도록 지시합니다. 생성된 음악 설명은 한국어로 반환됩니다.
-    
+
 #     Returns:
 #         PromptTemplate: 음악 생성을 위한 프롬프트 템플릿 객체
 #     """
 #     # 음악 생성을 위한 프롬프트 템플릿 정의
-#     music_generation_template = """당신은 음악 생성 전문가로서 다양한 장르와 분위기의 음악을 설명하고 
+#     music_generation_template = """당신은 음악 생성 전문가로서 다양한 장르와 분위기의 음악을 설명하고
 # 생성하는 데 전문성을 가지고 있습니다. 다음 정보를 바탕으로 음악을 생성해 주세요:
 
 # 1. 음악 장르: {music_genre}
@@ -40,7 +39,7 @@ from langchain_core.prompts import PromptTemplate
 # 모든 응답은 한국어로 작성해 주세요.
 
 # 생성된 음악 설명:"""
-    
+
 #     # PromptTemplate 객체 생성 및 반환
 #     return PromptTemplate(
 #         template=music_generation_template,  # 정의된 프롬프트 템플릿

@@ -18,10 +18,10 @@
 # def extract_image_metadata(file_path: str) -> Optional[Dict[str, Any]]:
 #     """
 #     이미지 파일에서 메타데이터를 추출합니다.
-#     
+#
 #     Args:
 #         file_path (str): 이미지 파일 경로
-#         
+#
 #     Returns:
 #         Optional[Dict[str, Any]]: 추출된 메타데이터 (크기, 형식, 모드 등)
 #     """
@@ -42,13 +42,13 @@
 # def resize_image(file_path: str, width: int, height: int, output_path: str) -> bool:
 #     """
 #     이미지 크기를 조정합니다.
-#     
+#
 #     Args:
 #         file_path (str): 원본 이미지 파일 경로
 #         width (int): 조정할 너비
 #         height (int): 조정할 높이
 #         output_path (str): 결과 이미지 저장 경로
-#         
+#
 #     Returns:
 #         bool: 성공 여부
 #     """

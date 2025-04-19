@@ -4,7 +4,8 @@
 해당 클래스 모듈은 각각 노드 클래스가 BaseNode를 상속받아 노드 클래스를 구현하는 모듈입니다.
 """
 
-from agents.base_node import BaseNode
+# from agents.base_node import BaseNode
+
 # from agents.music.modules.chains import set_music_generation_chain
 
 # class MusicGenerationNode(BaseNode):
@@ -20,10 +21,10 @@ from agents.base_node import BaseNode
 #         """
 #         주어진 상태(state)에서 music_genre와 music_mood를 추출하여
 #         음악 생성 체인에 전달하고, 결과를 응답으로 반환합니다.
-        
+
 #         Args:
 #             state: 현재 워크플로우 상태
-            
+
 #         Returns:
 #             dict: 생성된 음악 정보가 포함된 응답
 #         """

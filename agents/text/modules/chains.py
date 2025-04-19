@@ -15,14 +15,14 @@ from agents.text.modules.prompts import get_extraction_prompt
 def set_extraction_chain() -> RunnableSerializable:
     """
     페르소나 추출에 사용할 LangChain 체인을 생성합니다.
-    
+
     이 함수는 LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
     체인은 다음 단계로 구성됩니다:
     1. 입력에서 content_topic과 content_type을 추출하여 프롬프트에 전달
     2. 프롬프트 템플릿에 값을 삽입하여 최종 프롬프트 생성
     3. LLM을 호출하여 페르소나 추출 수행
     4. 결과를 문자열로 변환
-    
+
     이 함수는 페르소나 추출 노드에서 사용됩니다.
     ```
 
@@ -39,9 +39,9 @@ def set_extraction_chain() -> RunnableSerializable:
         # 입력에서 필요한 필드 추출 및 프롬프트에 전달
         RunnablePassthrough.assign(
             content_topic=lambda x: x["content_topic"],  # 콘텐츠 주제 추출
-            content_type=lambda x: x["content_type"],   # 콘텐츠 유형 추출
+            content_type=lambda x: x["content_type"],  # 콘텐츠 유형 추출
         )
         | prompt  # 프롬프트 적용
-        | model   # LLM 모델 호출
+        | model  # LLM 모델 호출
         | StrOutputParser()  # 결과를 문자열로 변환
     )

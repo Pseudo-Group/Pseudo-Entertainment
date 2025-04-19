@@ -6,6 +6,9 @@
 
 from agents.base_node import BaseNode
 from agents.text.modules.chains import set_extraction_chain
+from agents.text.modules.persona import PERSONA
+from agents.text.modules.state import TextState
+
 
 class PersonaExtractionNode(BaseNode):
     """
@@ -16,7 +19,7 @@ class PersonaExtractionNode(BaseNode):
         super().__init__(**kwargs)  # BaseNode 초기화
         self.chain = set_extraction_chain()  # 페르소나 추출 체인 설정
 
-    def execute(self, state) -> dict:
+    def execute(self, state: TextState) -> dict:
         """
         주어진 상태(state)에서 content_topic과 content_type을 추출하여
         페르소나 추출 체인에 전달하고, 결과를 응답으로 반환합니다.
@@ -25,7 +28,8 @@ class PersonaExtractionNode(BaseNode):
         extracted_persona = self.chain.invoke(
             {
                 "content_topic": state["content_topic"],  # 콘텐츠 주제
-                "content_type": state["content_type"],   # 콘텐츠 유형
+                "content_type": state["content_type"],  # 콘텐츠 유형
+                "persona_details": PERSONA,  # 페르소나 세부 정보
             }
         )
 
