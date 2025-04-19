@@ -1152,7 +1152,6 @@ dependencies = [
     { name = "langchain" },
     { name = "langchain-community" },
     { name = "langgraph" },
-    { name = "pre-commit" },
     { name = "python-dotenv" },
 ]
 
@@ -1160,6 +1159,7 @@ dependencies = [
 dev = [
     { name = "ipykernel" },
     { name = "langgraph-cli", extra = ["inmem"] },
+    { name = "pre-commit" },
     { name = "pytest" },
 ]
 
@@ -1168,7 +1168,6 @@ requires-dist = [
     { name = "langchain", specifier = ">=0.3.23" },
     { name = "langchain-community", specifier = ">=0.2.17" },
     { name = "langgraph", specifier = ">=0.3.27" },
-    { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
 ]
 
@@ -1176,6 +1175,7 @@ requires-dist = [
 dev = [
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "langgraph-cli", extras = ["inmem"], specifier = ">=0.2.3" },
+    { name = "pre-commit", specifier = ">=4.2.0" },
     { name = "pytest", specifier = ">=8.3.5" },
 ]
 

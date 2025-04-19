@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Annotated, TypedDict
 
 from langgraph.graph.message import add_messages
 
-from dataclasses import dataclass
+
 @dataclass
 class MainState(TypedDict):
     """
