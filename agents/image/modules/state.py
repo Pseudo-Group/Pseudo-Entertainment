@@ -5,11 +5,15 @@
 LangGraph의 상태 관리를 위한 클래스를 포함합니다.
 """
 
+from __future__ import annotations
+
+from dataclasses import dataclass
 from typing import Annotated, TypedDict
 
 from langgraph.graph.message import add_messages
 
 
+@dataclass
 class ImageState(TypedDict):
     """
     이미지 Workflow의 상태를 정의하는 TypedDict 클래스

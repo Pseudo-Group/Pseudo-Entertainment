@@ -9,7 +9,6 @@
 """
 
 from agents.text.modules.nodes import PersonaExtractionNode
-from agents.text.modules.state import TextState
 
 
 def test_node_empty() -> None:

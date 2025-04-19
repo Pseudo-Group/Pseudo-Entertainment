@@ -117,17 +117,16 @@ $ uv run langgraph dev
 
 #### pre-commit 설정
 
-1. pre-commit 설치 및 초기화:
+1. pre-commit 초기화:
 
 ```bash
-$ uv pip install pre-commit
-$ pre-commit install
+$ uv run pre-commit install
 ```
 
 2. 모든 파일에 대해 수동으로 실행:
 
 ```bash
-$ pre-commit run --all-files
+$ uv run pre-commit run --all-files
 ```
 
 3. 커밋 시 자동 실행:
