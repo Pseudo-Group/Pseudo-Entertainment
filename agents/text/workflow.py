@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph
 
 from agents.base_workflow import BaseWorkflow
-from agents.text.modules.nodes import PersonaExtractionNode
+from agents.text.modules.nodes import PersonaExtractionNode, WeatherAPINode
 from agents.text.modules.state import TextState
 
 
@@ -29,10 +29,18 @@ class TextWorkflow(BaseWorkflow):
             CompiledStateGraph: 컴파일된 상태 그래프 객체
         """
         builder = StateGraph(self.state)
+
+        ### 추가 파트
+        builder.add_node("weather_api", WeatherAPINode())
+
         # 페르소나 추출 노드 추가
         builder.add_node("persona_extraction", PersonaExtractionNode())
+
+
+
         # 시작 노드에서 페르소나 추출 노드로 연결
-        builder.add_edge("__start__", "persona_extraction")
+        builder.add_edge("__start__", "weather_api")
+        builder.add_edge("weather_api", "persona_extraction")
         # 페르소나 추출 노드에서 종료 노드로 연결
         builder.add_edge("persona_extraction", "__end__")
 

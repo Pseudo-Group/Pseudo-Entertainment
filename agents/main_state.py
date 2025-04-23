@@ -28,3 +28,4 @@ class MainState(TypedDict):
 
     query: str
     response: Annotated[list, add_messages]
+    weather: Annotated[str, add_messages]
