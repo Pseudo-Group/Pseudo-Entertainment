@@ -33,5 +33,7 @@ class PersonaExtractionNode(BaseNode):
             }
         )
 
+        state["persona_extracted"] = extracted_persona
+
         # 추출된 페르소나를 응답으로 반환
         return {"response": extracted_persona}

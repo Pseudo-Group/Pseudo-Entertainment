@@ -9,6 +9,7 @@ from langchain.schema.runnable import RunnablePassthrough, RunnableSerializable
 from langchain_core.output_parsers import StrOutputParser
 
 from agents.text.modules.models import get_openai_model
+from agents.text.modules.persona import PERSONA
 from agents.text.modules.prompts import get_extraction_prompt
 
 
@@ -40,6 +41,7 @@ def set_extraction_chain() -> RunnableSerializable:
         RunnablePassthrough.assign(
             content_topic=lambda x: x["content_topic"],  # 콘텐츠 주제 추출
             content_type=lambda x: x["content_type"],  # 콘텐츠 유형 추출
+            persona_details=lambda x: PERSONA,
         )
         | prompt  # 프롬프트 적용
         | model  # LLM 모델 호출
