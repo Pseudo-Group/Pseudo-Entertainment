@@ -1,0 +1,7 @@
+# 임시 세팅입니다.
+
+news:
+  host: 0.0.0.0
+  port: 8005
+  url: http://localhost
+  transport: stdio
