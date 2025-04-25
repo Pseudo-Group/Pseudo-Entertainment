@@ -9,7 +9,7 @@ class McpConfig(TypedDict):
     news_url: str
     news_transport: str
 
-    def __init__(self, config_path: str = "mcp_config.yml"):
+    def __init__(self, config_path: str = "./agents/text/mcp/mcp_config.yml"):
         with open(config_path, "r") as f:
             config = safe_load(f)
 
