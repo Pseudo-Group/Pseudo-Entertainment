@@ -10,5 +10,8 @@ description = "텍스트 기반 콘텐츠 생성을 위한 LangGraph Workflow �
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "langchain-mcp-adapters>=0.0.9",
     "langchain-openai>=0.3.12",
+    "mcp>=1.6.0",
+    "newsapi-python>=0.2.7",
 ]
