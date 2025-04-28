@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "rag-mcp": {
+      "command": "C:\\Users\\study\\Pseudo-Entertainment\\.venv\\Scripts\\python.exe",
+      "args": [
+        "C:\\Users\\study\\Pseudo-Entertainment\\mcp_server.py"
+      ],
+      "env": {
+        "WEATHER_API_KEY": "decoding api key를 입력력"
+      }
+    }
+  }
+}
