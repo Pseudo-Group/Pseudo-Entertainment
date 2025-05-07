@@ -4,39 +4,27 @@
 기본적으로 PromptTemplate을 사용하여 프롬프트 템플릿을 생성하고 반환합니다.
 """
 
-# from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
-# def get_image_generation_prompt():
-#     """
-#     이미지 생성을 위한 프롬프트 템플릿을 생성합니다.
-#
-#     프롬프트는 LLM에게 사용자 쿼리에 맞는 이미지 생성 방법과
-#     이미지 특성을 설명하도록 지시합니다. 생성된 이미지 설명은 한국어로 반환됩니다.
-#
-#     Returns:
-#         PromptTemplate: 이미지 생성을 위한 프롬프트 템플릿 객체
-#     """
-#     # 이미지 생성을 위한 프롬프트 템플릿 정의
-#     image_generation_template = """당신은 이미지 생성 전문가로서 다양한 스타일과 주제의 이미지를 설명하고
-# 생성하는 데 전문성을 가지고 있습니다. 다음 정보를 바탕으로 이미지를 생성해 주세요:
+def get_image_generation_prompt():
+    """
+    자연스럽고 선명한 정면 얼굴 이미지 생성 프롬프트.
 
-# 사용자 요청: {query}
+    - persona 변수는 전달받되 프롬프트 안에 직접 언급하지 않음
+    - 색상과 질감은 선명하고 깨끗하게 출력되도록 유도
+    - 전체 얼굴(머리 꼭대기부터 턱 끝까지)과 자연스러운 머리카락 윤곽이 잘 보이게
+    """
+    image_generation_template = """Create a hyper-realistic head-and-shoulders portrait of a young female singer-songwriter based on the following persona:
 
-# 작업:
-# 위 입력을 사용하여 사용자의 요청에 맞는 이미지를 생성하고 설명해 주세요. 설명에는 다음 내용을 포함해야 합니다:
+{persona}
 
-# - 이미지의 주요 요소와 구성
-# - 이미지의 스타일과 분위기
-# - 색상 팔레트와 조명 효과
-# - 이미지가 전달하는 감정과 메시지
+You must strictly generate only a portrait of the subject, focusing only on the face and shoulders. 
+No full-body shots, no landscapes, no objects, no backgrounds, no decorations, no frames, and absolutely no text, letters, symbols, numbers, watermarks, or signatures are allowed in the image. 
+The background must be simple and neutral or blurred to avoid any distractions. 
+The final output must be a clean portrait focusing entirely on the subject without any additional elements.
+"""
 
-# 설명은 구체적이고 상세하게 작성하여 이미지 제작자가 이해하고 구현할 수 있도록 해주세요.
-# 모든 응답은 한국어로 작성해 주세요.
-
-# 생성된 이미지 설명:"""
-#
-#     # PromptTemplate 객체 생성 및 반환
-#     return PromptTemplate(
-#         template=image_generation_template,  # 정의된 프롬프트 템플릿
-#         input_variables=["query"],  # 프롬프트에 삽입될 변수들
-#     )
+    return PromptTemplate(
+        template=image_generation_template,
+        input_variables=["persona"],
+    )

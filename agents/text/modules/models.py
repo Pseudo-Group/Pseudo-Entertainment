@@ -4,6 +4,7 @@
 """
 
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 def get_openai_model(temperature=0.7, top_p=0.9):
@@ -16,4 +17,5 @@ def get_openai_model(temperature=0.7, top_p=0.9):
         ChatOpenAI: 초기화된 OpenAI 모델 인스턴스
     """
     # OpenAI 모델 초기화 및 반환
-    return ChatOpenAI(model="gpt-4o-mini", temperature=temperature, top_p=top_p)
+    return ChatGoogleGenerativeAI(model='gemini-2.0-flash', temperature=temperature, top_p=top_p)
+    # return ChatOpenAI(model="gpt-4o-mini", temperature=temperature, top_p=top_p)
