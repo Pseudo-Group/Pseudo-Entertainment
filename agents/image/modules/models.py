@@ -4,7 +4,9 @@
 """
 
 from langchain_google_genai import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def get_gemini_model(temperature=0.7, top_p=0.9):
     """
