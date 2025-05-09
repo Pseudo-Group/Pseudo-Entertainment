@@ -1,0 +1,5 @@
+diffusers>=0.26.3
+insightface>=0.7.3
+onnxruntime>=1.17.1
+opencv-python>=4.9.0.80
+transformers>=4.38.1

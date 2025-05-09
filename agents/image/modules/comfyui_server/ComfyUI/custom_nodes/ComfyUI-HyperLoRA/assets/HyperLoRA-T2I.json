@@ -1,0 +1,847 @@
+{
+  "id": "b3c6f1fb-6d5e-494d-a6eb-eff4a1020dac",
+  "revision": 0,
+  "last_node_id": 17,
+  "last_link_id": 24,
+  "nodes": [
+    {
+      "id": 2,
+      "type": "HyperLoRAConfig",
+      "pos": [
+        594.7638549804688,
+        -128.98974609375
+      ],
+      "size": [
+        370.171875,
+        370
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "HYPER_LORA_CONFIG",
+          "type": "HYPER_LORA_CONFIG",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyperLoRAConfig"
+      },
+      "widgets_values": [
+        "clip_vit_large_14_processor",
+        "clip_vit_large_14",
+        1024,
+        64,
+        12,
+        4,
+        4,
+        "clip + arcface",
+        "antelopev2",
+        512,
+        16,
+        128,
+        8,
+        false
+      ]
+    },
+    {
+      "id": 7,
+      "type": "HyperLoRAIDCond",
+      "pos": [
+        1012.1962280273438,
+        479.2580871582031
+      ],
+      "size": [
+        249.3211669921875,
+        122.28309631347656
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "hyper_lora",
+          "type": "HYPER_LORA",
+          "link": 7
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "name": "face_attr",
+          "type": "FACE_ATTR",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "ID_COND",
+          "type": "ID_COND",
+          "links": [
+            8
+          ]
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyperLoRAIDCond"
+      },
+      "widgets_values": [
+        false,
+        true
+      ]
+    },
+    {
+      "id": 3,
+      "type": "HyperLoRALoader",
+      "pos": [
+        602.7095947265625,
+        300.7662048339844
+      ],
+      "size": [
+        358.7608947753906,
+        84.72722625732422
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "config",
+          "type": "HYPER_LORA_CONFIG",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "HYPER_LORA",
+          "type": "HYPER_LORA",
+          "links": [
+            2,
+            7,
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyperLoRALoader"
+      },
+      "widgets_values": [
+        "sdxl_hyper_id_lora_v1_fidelity",
+        "fp16"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "HyperLoRAFaceAttr",
+      "pos": [
+        780.483642578125,
+        517.940673828125
+      ],
+      "size": [
+        202.2093048095703,
+        46
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "hyper_lora",
+          "type": "HYPER_LORA",
+          "link": 2
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FACE_ATTR",
+          "type": "FACE_ATTR",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyperLoRAFaceAttr"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 8,
+      "type": "HyperLoRAGenerateIDLoRA",
+      "pos": [
+        1289.8516845703125,
+        460.67413330078125
+      ],
+      "size": [
+        249.1568145751953,
+        46
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "hyper_lora",
+          "type": "HYPER_LORA",
+          "link": 9
+        },
+        {
+          "name": "id_cond",
+          "type": "ID_COND",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LORA",
+          "type": "LORA",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyperLoRAGenerateIDLoRA"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 5,
+      "type": "ImpactMakeImageBatch",
+      "pos": [
+        497.7995300292969,
+        467.8606262207031
+      ],
+      "size": [
+        176.5312042236328,
+        46
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 4
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            3,
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImpactMakeImageBatch"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "EmptyLatentImage",
+      "pos": [
+        1387.7691650390625,
+        1137.106201171875
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 15,
+      "type": "CLIPSetLastLayer",
+      "pos": [
+        546.428466796875,
+        984.0955200195312
+      ],
+      "size": [
+        243.56906127929688,
+        61.31538772583008
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            19,
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPSetLastLayer"
+      },
+      "widgets_values": [
+        -2
+      ]
+    },
+    {
+      "id": 13,
+      "type": "BNK_CLIPTextEncodeAdvanced",
+      "pos": [
+        902.450439453125,
+        1075.2142333984375
+      ],
+      "size": [
+        430.8000183105469,
+        200
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            17
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BNK_CLIPTextEncodeAdvanced"
+      },
+      "widgets_values": [
+        "big breast, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet",
+        "length+mean",
+        "A1111"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        453.893310546875,
+        679.7804565429688
+      ],
+      "size": [
+        366.26171875,
+        98
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            11
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            21
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "RealVisXL_v4_BakedVAE.safetensors"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "VAEDecode",
+      "pos": [
+        2076.439697265625,
+        815.1502075195312
+      ],
+      "size": [
+        162.50253295898438,
+        47.082061767578125
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 22
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 23
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 17,
+      "type": "PreviewImage",
+      "pos": [
+        2314.008056640625,
+        414.486328125
+      ],
+      "size": [
+        597.0068359375,
+        650.1481323242188
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 24
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 6,
+      "type": "LoadImage",
+      "pos": [
+        103.46822357177734,
+        353.53076171875
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            4
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "id-01.png",
+        "image"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "BNK_CLIPTextEncodeAdvanced",
+      "pos": [
+        904.4961547851562,
+        813.8724365234375
+      ],
+      "size": [
+        430.8000183105469,
+        200
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BNK_CLIPTextEncodeAdvanced"
+      },
+      "widgets_values": [
+        "fcsks fxhks fhyks, Real photography, a girl, 4K, RAW photo, Korean portrait photography, korean style, close-up, 1 beautiful girl, exquisite makeup, delicate skin, long hair, beige off-shoulder sweater, depressed mood, ambient light, film lighting, polaroid effect, dark tone, snow scene, snowflakes Falling, outdoor shooting, background blur, Sunlight, (extreme light:1.2), Korean drama heroine's atmosphere, real photos, best picture quality, high details, (Nikon AF-S 105mm f/1.4E ED)",
+        "length+mean",
+        "A1111"
+      ]
+    },
+    {
+      "id": 9,
+      "type": "HyperLoRAApplyLoRA",
+      "pos": [
+        1298.61474609375,
+        677.2681884765625
+      ],
+      "size": [
+        242.75352478027344,
+        78
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 11
+        },
+        {
+          "name": "lora",
+          "type": "LORA",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "HyperLoRAApplyLoRA"
+      },
+      "widgets_values": [
+        0.9
+      ]
+    },
+    {
+      "id": 11,
+      "type": "KSampler",
+      "pos": [
+        1721.9530029296875,
+        714.7071533203125
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 13
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 16
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 17
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 18
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        693709576827048,
+        "fixed",
+        20,
+        5,
+        "dpmpp_2m",
+        "karras",
+        1
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      3,
+      0,
+      "HYPER_LORA_CONFIG"
+    ],
+    [
+      2,
+      3,
+      0,
+      4,
+      0,
+      "HYPER_LORA"
+    ],
+    [
+      3,
+      5,
+      0,
+      4,
+      1,
+      "IMAGE"
+    ],
+    [
+      4,
+      6,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ],
+    [
+      5,
+      4,
+      0,
+      7,
+      2,
+      "FACE_ATTR"
+    ],
+    [
+      6,
+      5,
+      0,
+      7,
+      1,
+      "IMAGE"
+    ],
+    [
+      7,
+      3,
+      0,
+      7,
+      0,
+      "HYPER_LORA"
+    ],
+    [
+      8,
+      7,
+      0,
+      8,
+      1,
+      "ID_COND"
+    ],
+    [
+      9,
+      3,
+      0,
+      8,
+      0,
+      "HYPER_LORA"
+    ],
+    [
+      10,
+      8,
+      0,
+      9,
+      1,
+      "LORA"
+    ],
+    [
+      11,
+      1,
+      0,
+      9,
+      0,
+      "MODEL"
+    ],
+    [
+      13,
+      9,
+      0,
+      11,
+      0,
+      "MODEL"
+    ],
+    [
+      16,
+      12,
+      0,
+      11,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      17,
+      13,
+      0,
+      11,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      18,
+      14,
+      0,
+      11,
+      3,
+      "LATENT"
+    ],
+    [
+      19,
+      15,
+      0,
+      12,
+      0,
+      "CLIP"
+    ],
+    [
+      20,
+      15,
+      0,
+      13,
+      0,
+      "CLIP"
+    ],
+    [
+      21,
+      1,
+      1,
+      15,
+      0,
+      "CLIP"
+    ],
+    [
+      22,
+      11,
+      0,
+      16,
+      0,
+      "LATENT"
+    ],
+    [
+      23,
+      1,
+      2,
+      16,
+      1,
+      "VAE"
+    ],
+    [
+      24,
+      16,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.28966437973668785,
+      "offset": [
+        1601.650058855172,
+        1022.8701287038153
+      ]
+    },
+    "frontendVersion": "1.16.9"
+  },
+  "version": 0.4
+}

@@ -1,0 +1,9 @@
+segment-anything
+scikit-image
+piexif
+transformers
+opencv-python-headless
+scipy>=1.11.4
+numpy<2
+dill
+matplotlib

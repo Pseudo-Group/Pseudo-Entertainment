@@ -1,0 +1,5 @@
+# Add base filenames of trusted models (e.g., my_old_yolo.pt) here, one per line.
+# This allows loading them with `weights_only=False` if they fail safe loading
+# due to errors like 'restricted getattr' in newer PyTorch versions.
+# WARNING: Only add files you absolutely trust, as this bypasses a security feature.
+# Prefer using .safetensors files whenever possible.
