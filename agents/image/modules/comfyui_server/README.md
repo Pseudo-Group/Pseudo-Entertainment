@@ -14,3 +14,11 @@ uv venv
 ```bash
 find . -name "requirements.txt" -exec uv add -r {} \;
 ```
+
+# 모델 weight 가져오기
+
+- file 경로 : `ComfyUI/models`
+
+```bash
+https://huggingface.co/nonsignal007/hyperlora_models/resolve/main/models.zip
+```
