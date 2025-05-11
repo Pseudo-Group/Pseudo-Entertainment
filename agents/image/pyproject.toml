@@ -11,4 +11,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "langchain-google-genai>=2.1.3",
+    "mcp>=1.8.0",
+    "requests>=2.32.3",
+    "websockets>=15.0.1",
 ]

@@ -7,10 +7,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ComfyUIClient")
 
 DEFAULT_MAPPING = {
-    "prompt": ("6", "text"),
-    "width": ("5", "width"),
-    "height": ("5", "height"),
-    "model": ("4", "ckpt_name")
+    "image": ("6", "image"),
+    "prompt": ("12", "text"),
+    "negative_prompt": ("13", "text"),
+    "width": ("14", "width"),
+    "height": ("14", "height"),
 }
 
 class ComfyUIClient:
@@ -33,21 +34,21 @@ class ComfyUIClient:
             logger.warning(f"Error fetching models: {e}")
             return []
 
-    def generate_image(self, prompt, width, height, workflow_id="basic_api_test", model=None):
+    def generate_image(self, prompt, image, width, height, workflow_id="hyperlora_face_generation", negative_prompt=None):
+        workflow_file = f"workflows/{workflow_id}.json"
         try:
-            workflow_file = f"workflows/{workflow_id}.json"
             with open(workflow_file, "r") as f:
                 workflow = json.load(f)
 
-            params = {"prompt": prompt, "width": width, "height": height}
-            if model:
-                # Validate or correct model name
-                if model.endswith("'"):  # Strip accidental quote
-                    model = model.rstrip("'")
-                    logger.info(f"Corrected model name: {model}")
-                if self.available_models and model not in self.available_models:
-                    raise Exception(f"Model '{model}' not in available models: {self.available_models}")
-                params["model"] = model
+            params = {"prompt": prompt, "negative_prompt": negative_prompt, "width": width, "height": height, "image": image}
+            # if model:
+            #     # Validate or correct model name
+            #     if model.endswith("'"):  # Strip accidental quote
+            #         model = model.rstrip("'")
+            #         logger.info(f"Corrected model name: {model}")
+            #     if self.available_models and model not in self.available_models:
+            #         raise Exception(f"Model '{model}' not in available models: {self.available_models}")
+            #     params["model"] = model
 
             for param_key, value in params.items():
                 if param_key in DEFAULT_MAPPING:
@@ -64,7 +65,7 @@ class ComfyUIClient:
             prompt_id = response.json()["prompt_id"]
             logger.info(f"Queued workflow with prompt_id: {prompt_id}")
 
-            max_attempts = 30
+            max_attempts = 300
             for _ in range(max_attempts):
                 history = requests.get(f"{self.base_url}/history/{prompt_id}").json()
                 if history.get(prompt_id):

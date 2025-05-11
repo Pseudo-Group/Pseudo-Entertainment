@@ -42,19 +42,21 @@ def generate_image(params: str) -> dict:
     logger.info(f"Received request with params: {params}")
     try:
         param_dict = json.loads(params)
+        image = param_dict["image"]
         prompt = param_dict["prompt"]
+        negative_prompt = param_dict.get("negative_prompt", None)
         width = param_dict.get("width", 512)
         height = param_dict.get("height", 512)
         workflow_id = param_dict.get("workflow_id", "basic_api_test")
-        model = param_dict.get("model", None)
 
         # Use global comfyui_client (since mcp.context isn’t available)
         image_url = comfyui_client.generate_image(
+            image=image,
             prompt=prompt,
+            negative_prompt=negative_prompt,
             width=width,
             height=height,
             workflow_id=workflow_id,
-            model=model
         )
         logger.info(f"Returning image URL: {image_url}")
         return {"image_url": image_url}
@@ -63,14 +65,14 @@ def generate_image(params: str) -> dict:
         return {"error": str(e)}
 
 # WebSocket server
-async def handle_websocket(websocket, path):
+async def handle_websocket(websocket):
     logger.info("WebSocket client connected")
     try:
         async for message in websocket:
             request = json.loads(message)
             logger.info(f"Received message: {request}")
             if request.get("tool") == "generate_image":
-                result = generate_image(request.get("params", ""))
+                result = await asyncio.to_thread(generate_image, request.get("params", ""))
                 await websocket.send(json.dumps(result))
             else:
                 await websocket.send(json.dumps({"error": "Unknown tool"}))
@@ -80,7 +82,7 @@ async def handle_websocket(websocket, path):
 # Main server loop
 async def main():
     logger.info("Starting MCP server on ws://localhost:9000...")
-    async with websockets.serve(handle_websocket, "localhost", 9000):
+    async with websockets.serve(handle_websocket, "localhost", 9000, ping_interval=60, ping_timeout=300):
         await asyncio.Future()  # Run forever
 
 if __name__ == "__main__":

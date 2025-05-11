@@ -5,11 +5,12 @@ import json
 payload = {
     "tool": "generate_image",
     "params": json.dumps({
-        "prompt": "an english mastiff dog sitting on a large boulder, bright shiny day",
+        "image": "try_01.png",
+        "prompt": "fcsks fxhks fhyks, a young woman, wearing a wedding dress, standing at a church entrance, looking forward, photorealistic",
+        "negative_prompt": "nsfw, lowres, bad anatomy, text, watermark, blurry, cropped",
         "width": 512,
         "height": 512,
-        "workflow_id": "basic_api_test",
-        "model": "v1-5-pruned-emaonly.ckpt"  # No extra quote
+        "workflow_id": "hyperlora_face_generation",
     })
 }
 

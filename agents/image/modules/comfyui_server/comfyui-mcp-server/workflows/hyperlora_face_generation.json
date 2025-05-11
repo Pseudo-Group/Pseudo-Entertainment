@@ -1,0 +1,325 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "realvisxlV50_v40Bakedvae.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "체크포인트 로드"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image_processor": "clip_vit_large_14_processor",
+      "image_encoder": "clip_vit_large_14",
+      "resampler.dim": 1024,
+      "resampler.dim_head": 64,
+      "resampler.heads": 12,
+      "resampler.depth": 4,
+      "resampler.ff_mult": 4,
+      "encoder_types": "clip + arcface",
+      "face_analyzer": "antelopev2",
+      "id_embed_dim": 512,
+      "num_id_tokens": 16,
+      "hyper_dim": 128,
+      "lora_rank": 8,
+      "has_base_lora": false
+    },
+    "class_type": "HyperLoRAConfig",
+    "_meta": {
+      "title": "HyperLoRA Config"
+    }
+  },
+  "3": {
+    "inputs": {
+      "model": "sdxl_hyper_id_lora_v1_fidelity",
+      "dtype": "fp16",
+      "config": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "HyperLoRALoader",
+    "_meta": {
+      "title": "HyperLoRA Loader"
+    }
+  },
+  "4": {
+    "inputs": {
+      "hyper_lora": [
+        "3",
+        0
+      ],
+      "images": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAFaceAttr",
+    "_meta": {
+      "title": "HyperLoRA Face Attr"
+    }
+  },
+  "5": {
+    "inputs": {
+      "image1": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "ImpactMakeImageBatch",
+    "_meta": {
+      "title": "Make Image Batch"
+    }
+  },
+  "6": {
+    "inputs": {
+      "image": "try_01.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "이미지 로드"
+    }
+  },
+  "7": {
+    "inputs": {
+      "grayscale": false,
+      "remove_background": true,
+      "hyper_lora": [
+        "3",
+        0
+      ],
+      "images": [
+        "5",
+        0
+      ],
+      "face_attr": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAIDCond",
+    "_meta": {
+      "title": "HyperLoRA ID Cond"
+    }
+  },
+  "8": {
+    "inputs": {
+      "hyper_lora": [
+        "3",
+        0
+      ],
+      "id_cond": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAGenerateIDLoRA",
+    "_meta": {
+      "title": "HyperLoRA Generate ID LoRA"
+    }
+  },
+  "9": {
+    "inputs": {
+      "weight": 0.85,
+      "model": [
+        "1",
+        0
+      ],
+      "lora": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAApplyLoRA",
+    "_meta": {
+      "title": "HyperLoRA Apply LoRA"
+    }
+  },
+  "11": {
+    "inputs": {
+      "seed": 56761277541164,
+      "steps": 20,
+      "cfg": 5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "9",
+        0
+      ],
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "12": {
+    "inputs": {
+      "text": "fcsks fxhks fhyks, a young woman, wearing wedding dress, at church",
+      "token_normalization": "length+mean",
+      "weight_interpretation": "A1111",
+      "clip": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "BNK_CLIPTextEncodeAdvanced",
+    "_meta": {
+      "title": "CLIP Text Encode (Advanced)"
+    }
+  },
+  "13": {
+    "inputs": {
+      "text": "big breast, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet",
+      "token_normalization": "length+mean",
+      "weight_interpretation": "A1111",
+      "clip": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "BNK_CLIPTextEncodeAdvanced",
+    "_meta": {
+      "title": "CLIP Text Encode (Advanced)"
+    }
+  },
+  "14": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "빈 잠재 이미지"
+    }
+  },
+  "15": {
+    "inputs": {
+      "stop_at_clip_layer": -2,
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPSetLastLayer",
+    "_meta": {
+      "title": "CLIP 마지막 레이어 설정"
+    }
+  },
+  "16": {
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE 디코드"
+    }
+  },
+  "18": {
+    "inputs": {
+      "guide_size": 896,
+      "guide_size_for": true,
+      "max_size": 896,
+      "seed": 97030315765072,
+      "steps": 10,
+      "cfg": 5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.5,
+      "feather": 5,
+      "noise_mask": true,
+      "force_inpaint": true,
+      "bbox_threshold": 0.5,
+      "bbox_dilation": 10,
+      "bbox_crop_factor": 2,
+      "sam_detection_hint": "center-1",
+      "sam_dilation": 0,
+      "sam_threshold": 0.93,
+      "sam_bbox_expansion": 0,
+      "sam_mask_hint_threshold": 0.7,
+      "sam_mask_hint_use_negative": "False",
+      "drop_size": 10,
+      "wildcard": "",
+      "cycle": 1,
+      "inpaint_model": false,
+      "noise_mask_feather": 0,
+      "tiled_encode": false,
+      "tiled_decode": false,
+      "image": [
+        "16",
+        0
+      ],
+      "model": [
+        "9",
+        0
+      ],
+      "clip": [
+        "15",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ],
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "13",
+        0
+      ],
+      "bbox_detector": [
+        "19",
+        0
+      ]
+    },
+    "class_type": "FaceDetailer",
+    "_meta": {
+      "title": "얼굴 디테일러"
+    }
+  },
+  "19": {
+    "inputs": {
+      "model_name": "bbox/face_yolov8m.pt"
+    },
+    "class_type": "UltralyticsDetectorProvider",
+    "_meta": {
+      "title": "UltralyticsDetectorProvider"
+    }
+  },
+  "20": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "이미지 저장"
+    }
+  }
+}
