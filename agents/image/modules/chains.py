@@ -10,7 +10,7 @@ from langchain_core.messages import HumanMessage
 from agents.image.modules.models import get_gemini_model
 from agents.image.modules.prompts import get_image_generation_prompt
 
-def set_image_generation_chain() -> RunnableLambda:
+def set_face_generation_chain() -> RunnableLambda:
     """
     이미지 생성에 사용할 LangChain 체인을 생성합니다.
 

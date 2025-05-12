@@ -5,11 +5,11 @@
 StateGraph를 사용하여 이미지 처리를 위한 워크플로우를 구축합니다.
 """
 
-from langgraph.graph import StateGraph
+from langgraph.graph import StateGraph, START, END
 
 from agents.base_workflow import BaseWorkflow
 from agents.image.modules.state import ImageState
-
+from agents.image.modules.nodes import FixedFaceGenerationNode
 
 class ImageWorkflow(BaseWorkflow):
     """
@@ -36,13 +36,9 @@ class ImageWorkflow(BaseWorkflow):
         """
         builder = StateGraph(self.state)
 
-        # 기본 구조: 시작 노드에서 종료 노드로 직접 연결
-        builder.add_edge("__start__", "__end__")
-
-        # 향후 이미지 생성 노드 추가 예시
-        # builder.add_node("image_generation", ImageGenerationNode())
-        # builder.add_edge("__start__", "image_generation")
-        # builder.add_edge("image_generation", "__end__")
+        builder.add_node("fixed_face_generation", FixedFaceGenerationNode())
+        builder.add_edge(START, "fixed_face_generation")
+        builder.add_edge("fixed_face_generation", END)
 
         workflow = builder.compile()  # 그래프 컴파일
         workflow.name = self.name  # Workflow 이름 설정
