@@ -2,10 +2,14 @@
 
 기본적으로 사용할 모델 인스턴스를 설정하고 생성하고 반환시킵니다.
 """
+import os
+from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 # from langchain_openai import ChatOpenAI
 
+# .env 파일에서 환경 변수 로드
+load_dotenv()
 
 # def get_openai_model(temperature=0.7, top_p=0.9):
 #     """
@@ -32,5 +36,12 @@ def get_gemini_model(temperature=0.5):
     Args:
         temperature: 모델의 창의성 정도를 조절하는 파라미터 (기본값:0.5)
     """
+    api_key = os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        raise ValueError("GOOGLE_API_KEY not found in environment variables. Please set it in .env file.")
 
-    return ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp-image-generation")
+    return ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash-exp-image-generation",
+        temperature=temperature,
+        google_api_key=api_key
+    )

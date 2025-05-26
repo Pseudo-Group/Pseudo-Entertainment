@@ -6,6 +6,43 @@
 
 from langchain_core.prompts import PromptTemplate
 
+def get_image_generation_prompt() -> str:
+    """
+    이미지 생성을 위한 프롬프트 템플릿을 반환합니다.
+
+    Returns:
+        str: 이미지 생성 프롬프트 템플릿
+    """
+    return """
+    목적: {purpose}
+    
+    다음 텍스트를 기반으로 이미지를 생성해주세요:
+    {text}
+    
+    이미지는 고품질이어야 하며, 텍스트의 감성과 분위기를 잘 표현해야 합니다.
+    """
+
+def get_text_response_prompt() -> str:
+    """
+    텍스트 응답 생성을 위한 프롬프트 템플릿을 반환합니다.
+
+    Returns:
+        str: 텍스트 응답 프롬프트 템플릿
+    """
+    return """
+    목적: {purpose}
+    
+    다음 텍스트에 대한 이미지를 생성하고 있습니다:
+    {text}
+    
+    이 텍스트의 시각적 요소와 감성을 분석하고, 어떤 이미지가 생성될 것인지 설명해주세요.
+    다음 요소들을 포함해서 설명해주세요:
+    1. 주요 시각적 요소
+    2. 색감과 톤
+    3. 분위기와 감성
+    4. 구도와 강조점
+    """
+
 def get_image_generation_prompt():
      """
      이미지 생성을 위한 프롬프트 템플릿을 생성합니다.
