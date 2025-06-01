@@ -5,12 +5,11 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 
 """
 
-from langchain.schema.runnable import RunnablePassthrough, RunnableSerializable
-from langchain_core.output_parsers import StrOutputParser
-
 from agents.text.modules.models import get_openai_model
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.prompts import get_extraction_prompt, get_instagram_text_prompt
+from langchain.schema.runnable import RunnablePassthrough, RunnableSerializable
+from langchain_core.output_parsers import StrOutputParser
 
 
 def set_extraction_chain() -> RunnableSerializable:
@@ -80,4 +79,3 @@ def set_instagram_text_chain() -> RunnableSerializable:
         | model  # LLM 모델 호출
         | StrOutputParser()  # 결과를 문자열로 변환
     )
-

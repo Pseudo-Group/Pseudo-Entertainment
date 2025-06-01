@@ -55,9 +55,7 @@ class GenTextNode(BaseNode):
         """
         # 인스타그램 텍스트 생성 체인 실행
         instagram_text = self.chain.invoke(
-            {
-                "persona_extracted": state["persona_extracted"]  # 추출된 페르소나
-            }
+            {"persona_extracted": state["persona_extracted"]}  # 추출된 페르소나
         )
 
         # LangGraph에서 state 업데이트는 반환값으로 처리

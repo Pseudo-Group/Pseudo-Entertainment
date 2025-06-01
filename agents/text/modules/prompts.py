@@ -64,7 +64,7 @@ def get_instagram_text_prompt():
     """
     추출된 페르소나를 바탕으로 인스타그램 텍스트를 생성하기 위한 프롬프트 템플릿을 생성합니다.
 
-    이 함수는 이미 추출된 페르소나 정보를 받아서 인스타그램에 적합한 
+    이 함수는 이미 추출된 페르소나 정보를 받아서 인스타그램에 적합한
     짧고 매력적인 텍스트를 생성하도록 LLM에게 지시합니다.
 
     Returns:
@@ -96,5 +96,5 @@ def get_instagram_text_prompt():
         template=instagram_template,  # 정의된 프롬프트 템플릿
         input_variables=[
             "persona_extracted",
-        ]
+        ],
     )
