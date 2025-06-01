@@ -143,7 +143,9 @@ class ContentSafetyCheckNode(BaseNode):
         return {
             "success": success,
             "reason": None if success else reasons,
-            "response": "Text content is valid."
-            if success
-            else "Text content failed validation checks.",
+            "response": (
+                "Text content is valid."
+                if success
+                else "Text content failed validation checks."
+            ),
         }
