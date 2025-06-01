@@ -4,8 +4,13 @@
 해당 클래스 모듈은 각각 노드 클래스가 BaseNode를 상속받아 노드 클래스를 구현하는 모듈입니다.
 """
 
+import os
+
+import requests
+
 from agents.base_node import BaseNode
 from agents.text.modules.chains import set_extraction_chain
+from agents.text.modules.models import get_openai_model
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.state import TextState
 
@@ -37,15 +42,6 @@ class PersonaExtractionNode(BaseNode):
 
         # 추출된 페르소나를 응답으로 반환
         return {"response": extracted_persona}
-
-
-import os
-
-import requests
-
-from agents.base_node import BaseNode
-from agents.text.modules.models import get_openai_model
-from agents.text.modules.state import TextState
 
 
 class ContentSafetyCheckNode(BaseNode):
