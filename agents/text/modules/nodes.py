@@ -5,7 +5,7 @@
 """
 
 from agents.base_node import BaseNode
-from agents.text.modules.chains import set_extraction_chain
+from agents.text.modules.chains import set_extraction_chain, set_instagram_text_chain
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.state import TextState
 
@@ -33,7 +33,34 @@ class PersonaExtractionNode(BaseNode):
             }
         )
 
-        state["persona_extracted"] = extracted_persona
+        # LangGraph에서 state 업데이트는 반환값으로 처리
+        return {
+            "persona_extracted": extracted_persona,
+        }
 
-        # 추출된 페르소나를 응답으로 반환
-        return {"response": extracted_persona}
+
+class GenTextNode(BaseNode):
+    """
+    추출된 페르소나를 바탕으로 인스타그램 포스트에 적합한 텍스트를 생성합니다.
+    트윗과 같은 간결하고 매력적인 형태로 니제(NEEDZE)의 감성을 담은 텍스트를 생성합니다.
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)  # BaseNode 초기화
+        self.chain = set_instagram_text_chain()  # 인스타그램 텍스트 생성 체인 설정
+
+    def execute(self, state: TextState) -> dict:
+        """
+        추출된 페르소나(persona_extracted)를 받아서 인스타그램에 적합한 텍스트를 생성하여 응답으로 반환합니다.
+        """
+        # 인스타그램 텍스트 생성 체인 실행
+        instagram_text = self.chain.invoke(
+            {
+                "persona_extracted": state["persona_extracted"]  # 추출된 페르소나
+            }
+        )
+
+        # LangGraph에서 state 업데이트는 반환값으로 처리
+        return {
+            "instagram_text": instagram_text,
+        }
