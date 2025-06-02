@@ -69,8 +69,8 @@ $ uv sync --package <PACKAGE NAME>
   "graphs": {
     "main": "./agents/workflow.py:main_workflow",
     "text": "./agents/text/workflow.py:text_workflow"
-    // "music": "./agents/music/workflow.py:music_workflow",
-    // "image": "./agents/image/workflow.py:image_workflow"
+    // "music": "./agents/music/workflow.py:music_workflow", <- JSON에서는 주석이 안 먹습니다. 해당 줄은 삭제해주세요.
+    // "image": "./agents/image/workflow.py:image_workflow"  <- JSON에서는 주석이 안 먹습니다. 해당 줄은 삭제해주세요.
   },
   "env": ".env"
 }
