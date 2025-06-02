@@ -5,7 +5,10 @@
 """
 
 from agents.base_node import BaseNode
-from agents.text.modules.chains import set_extraction_chain
+from agents.text.modules.chains import (
+    set_extraction_chain,
+    set_text_content_check_chain,
+)
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.state import TextState
 
@@ -37,3 +40,18 @@ class PersonaExtractionNode(BaseNode):
 
         # 추출된 페르소나를 응답으로 반환
         return {"response": extracted_persona}
+
+
+class TextContentCheckNode(BaseNode):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.chain = set_text_content_check_chain()
+
+    def execute(self, state: TextState) -> dict:
+        input_data = {
+            "response": state.get("response", [""]),
+            "persona_extracted": state.get("persona_extracted", {}),
+        }
+        result = self.chain.invoke(input_data)
+        state.update(result)
+        return result

@@ -58,3 +58,21 @@ Extracted Persona:"""
             "persona_details",
         ],  # 프롬프트에 삽입될 변수들
     )
+
+
+def get_persona_match_prompt() -> PromptTemplate:
+    """
+    Returns a prompt template to evaluate if a given text aligns with a provided persona.
+
+    The model must respond only with "YES" or "NO".
+    """
+    template = (
+        "The following is an Instagram text content. Please determine whether it aligns with the provided persona. "
+        "Reply only with 'YES' if it matches well, or 'NO' if it doesn't.\n\n"
+        "[Persona]\n{persona_description}\n\n"
+        "[Text]\n{text}"
+    )
+
+    return PromptTemplate(
+        template=template, input_variables=["persona_description", "text"]
+    )
