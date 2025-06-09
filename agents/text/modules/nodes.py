@@ -4,8 +4,14 @@
 해당 클래스 모듈은 각각 노드 클래스가 BaseNode를 상속받아 노드 클래스를 구현하는 모듈입니다.
 """
 
+import asyncio
+
 from agents.base_node import BaseNode
-from agents.text.modules.chains import set_extraction_chain, set_instagram_text_chain
+from agents.text.modules.chains import (
+    set_extraction_chain,
+    set_instagram_text_chain,
+    set_topic_generation_news_chain,
+)
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.state import TextState
 
@@ -62,3 +68,24 @@ class GenTextNode(BaseNode):
         return {
             "instagram_text": instagram_text,
         }
+
+
+class TopicFromNewsNode(BaseNode):
+    """
+    주어진 키워드에 대한 뉴스 기사를 스크래핑하는 노드
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.chain = set_topic_generation_news_chain()
+
+    def execute(self, state: TextState) -> dict:
+        """
+        주어진 키워드에 대한 뉴스 기사를 스크래핑하고, 결과를 응답으로 반환합니다.
+        """
+        try:
+            result = asyncio.run(self.chain.ainvoke(state["content_topic"]))
+            state["news"] = result
+            return {"response": result}
+        except Exception as e:
+            return {"response": f"뉴스 검색 중 오류가 발생했습니다: {str(e)}"}

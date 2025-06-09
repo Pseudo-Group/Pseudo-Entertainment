@@ -5,6 +5,7 @@ requires-python = ">=3.13"
 [manifest]
 members = [
     "image",
+    "management",
     "music",
     "pseudo-entertainment",
     "text",
@@ -855,6 +856,11 @@ sdist = { url = "https://files.pythonhosted.org/packages/a5/d0/59101fe1ad16a914b
 wheels = [
     { url = "https://files.pythonhosted.org/packages/64/c3/5db3d0977bb53e16eab834f2eea6e1c68d327e2f5c25b88f6506ef06e692/langsmith-0.3.31-py3-none-any.whl", hash = "sha256:ee780ae3eac69998c336817c0b9f5ccfecaaaa3e67d94b7ef726b58ab3e72a25", size = 358251 },
 ]
+
+[[package]]
+name = "management"
+version = "0.1.0"
+source = { virtual = "agents/management" }
 
 [[package]]
 name = "marshmallow"
