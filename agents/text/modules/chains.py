@@ -79,11 +79,9 @@ def set_topic_generation_news_chain() -> RunnableSerializable:
 
     return (
         news_scraping_query_chain
-        | RunnableLambda(scrape_news)  # 비동기 함수를 그대로 사용
-        | RunnablePassthrough.assign(
-            news_article=lambda x: x,
-            persona_details=lambda x: PERSONA,
-        )
+        | RunnableLambda(scrape_news)
+        | RunnableLambda(lambda x: {"news_article": x})  # 반환값을 딕셔너리로 변환
+        | RunnablePassthrough.assign(persona_details=lambda x: PERSONA)
         | get_topic_from_news_prompt()
         | model
         | StrOutputParser()
