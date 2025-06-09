@@ -20,7 +20,7 @@ class TextState(TypedDict):
     query: str  # 사용자 쿼리 또는 요청사항
     persona_extracted: Optional[str] = None  # 추출된 페르소나 전문
     news: Optional[str] = None  # 뉴스 기사
-    instagram_text: str  # 생성된 인스타그램 텍스트
+    instagram_text: Optional[str] = None  # 생성된 인스타그램 텍스트
     response: Optional[Annotated[list, add_messages]] = (
         None  # 응답 메시지 목록 (add_messages로 주석되어 메시지 추가 기능 제공)
     )
