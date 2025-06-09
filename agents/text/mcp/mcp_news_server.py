@@ -2,9 +2,8 @@ import os
 from datetime import date, timedelta
 
 from mcp.server.fastmcp import FastMCP
+from mcp_config_loader import mcp_config
 from newsapi import NewsApiClient
-
-from agents.text.mcp.mcp_config_loader import mcp_config
 
 news_mcp = FastMCP(
     name="news",
