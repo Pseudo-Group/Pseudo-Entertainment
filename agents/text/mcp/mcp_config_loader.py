@@ -1,22 +1,32 @@
-from typing import TypedDict
+import os
+from dataclasses import dataclass
 
 from yaml import safe_load
 
 
-class McpConfig(TypedDict):
+@dataclass
+class McpConfig:
     news_host: str
     news_port: int
     news_url: str
     news_transport: str
 
-    def __init__(self, config_path: str = "./agents/text/mcp/mcp_config.yml"):
+    @classmethod
+    def from_yaml(cls, config_path: str = "mcp_config.yml") -> "McpConfig":
+        # Get the directory containing this file
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Construct absolute path to config file
+        config_path = os.path.join(current_dir, config_path)
+
         with open(config_path, "r") as f:
             config = safe_load(f)
 
-        self.news_host = config["news"]["host"]
-        self.news_port = config["news"]["port"]
-        self.news_url = config["news"]["url"]
-        self.news_transport = config["news"]["transport"]
+        return cls(
+            news_host=config["news"]["host"],
+            news_port=config["news"]["port"],
+            news_url=config["news"]["url"],
+            news_transport=config["news"]["transport"],
+        )
 
 
-mcp_config = McpConfig()
+mcp_config = McpConfig.from_yaml()
