@@ -98,3 +98,53 @@ def get_instagram_text_prompt():
             "persona_extracted",
         ],
     )
+
+
+def get_news_scraping_query_prompt() -> PromptTemplate:
+    """
+    뉴스 스크래핑을 위한 프롬프트 템플릿을 생성합니다.
+    """
+    prompt_template = """You are an assistant responsible for generating search queries for retrieving news articles.
+You have to generate search query that aligns with given persona: {persona_details}
+
+Your tasks:
+- To read a given persona outlining the user’s interests and, based on that persona.
+- produce a concise and precise news search keyword focused on a specific topic, event, or domain that aligns with
+those interests.
+
+Rules:
+- The keyword must be short and clear.
+- It must target a topic, event, or domain suitable for news search.
+- Output only the search query—no extra text.
+
+search query: """
+
+    return PromptTemplate(
+        template=prompt_template,
+        input_variables=["persona_details"],
+    )
+
+
+def get_topic_from_news_prompt():
+    """
+    뉴스로부터 인스타그램 포스트 주제를 추출하는 프롬프트를 생성합니다.
+    """
+    prompt_template = """
+You are an assistant responsible for extracting a concise and engaging topic from a given news article.
+You have to generate a topic that is relevant to the news article and is suitable for an instagram post.
+Also topic must be aligned with given persona.
+
+Rules:
+- The topic must be short and clear.
+- It must be relevant to the news article.
+- Output only the topic—no extra text.
+
+news article: {news_article}
+persona: {persona_details}
+
+topic: """
+
+    return PromptTemplate(
+        template=prompt_template,
+        input_variables=["news_article", "persona_details"],
+    )
