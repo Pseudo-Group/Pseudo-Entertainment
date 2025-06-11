@@ -4,7 +4,37 @@
 해당 클래스 모듈은 각각 노드 클래스가 BaseNode를 상속받아 노드 클래스를 구현하는 모듈입니다.
 """
 
-# from agents.base_node import BaseNode
+from agents.base_node import BaseNode
+from agents.music.modules.prompts import get_lyric_template
+from agents.music.modules.state import MusicState
+from agents.music.modules.models import get_openai_model
+
+class LyricGenerationNode(BaseNode):
+    """
+    가사 생성 노드
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.model = get_openai_model()
+    
+    def execute(self, state: MusicState) -> dict:
+        """
+        가사 생성 노드 실행
+        """
+        self.logging("execute", input_state=state)
+        prompt = get_lyric_template().format(query=state["query"])
+        response = self.model.invoke(prompt)
+        return {"response": response, "query": state["query"]}
+
+    def __call__(self, state: MusicState) -> dict:
+        """
+        노드를 함수처럼 호출 가능하게 만드는 메서드
+        """
+        return self.execute(state)
+    
+        
+
 
 # from agents.music.modules.chains import set_music_generation_chain
 
