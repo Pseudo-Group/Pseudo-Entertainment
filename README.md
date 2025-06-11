@@ -1,4 +1,4 @@
-# Pseudo Entertainment Company
+# Act1.Entertainment
 
 AI 기반 콘텐츠 생성 및 관리 시스템
 
