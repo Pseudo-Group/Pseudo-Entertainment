@@ -2,9 +2,7 @@
 
 기본적으로 사용할 모델 인스턴스를 설정하고 생성하고 반환시킵니다.
 """
-
-# from langchain_openai import ChatOpenAI
-
+from langchain_openai import ChatOpenAI
 
 def get_openai_model(temperature=0.7, top_p=0.9):
     """
@@ -16,4 +14,7 @@ def get_openai_model(temperature=0.7, top_p=0.9):
         ChatOpenAI: 초기화된 OpenAI 모델 인스턴스
     """
     # OpenAI 모델 초기화 및 반환
-    return ChatOpenAI(model="gpt-4o-mini", temperature=temperature, top_p=top_p)
+    return ChatOpenAI(model="gpt-4o-mini", 
+                      temperature=temperature, 
+                      top_p=top_p,
+                      )
