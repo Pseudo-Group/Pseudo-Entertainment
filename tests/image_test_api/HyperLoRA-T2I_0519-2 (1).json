@@ -1,0 +1,264 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "realvisxlV50_v40Bakedvae.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "체크포인트 로드"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image_processor": "clip_vit_large_14_processor",
+      "image_encoder": "clip_vit_large_14",
+      "resampler.dim": 1024,
+      "resampler.dim_head": 64,
+      "resampler.heads": 12,
+      "resampler.depth": 4,
+      "resampler.ff_mult": 4,
+      "encoder_types": "clip + arcface",
+      "face_analyzer": "antelopev2",
+      "id_embed_dim": 512,
+      "num_id_tokens": 16,
+      "hyper_dim": 128,
+      "lora_rank": 8,
+      "has_base_lora": false
+    },
+    "class_type": "HyperLoRAConfig",
+    "_meta": {
+      "title": "HyperLoRA Config"
+    }
+  },
+  "3": {
+    "inputs": {
+      "model": "sdxl_hyper_id_lora_v1_fidelity",
+      "dtype": "fp32",
+      "config": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "HyperLoRALoader",
+    "_meta": {
+      "title": "HyperLoRA Loader"
+    }
+  },
+  "4": {
+    "inputs": {
+      "hyper_lora": [
+        "3",
+        0
+      ],
+      "images": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAFaceAttr",
+    "_meta": {
+      "title": "HyperLoRA Face Attr"
+    }
+  },
+  "5": {
+    "inputs": {
+      "image1": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "ImpactMakeImageBatch",
+    "_meta": {
+      "title": "Make Image Batch"
+    }
+  },
+  "6": {
+    "inputs": {
+      "image": "input_image.jpg"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "이미지 로드"
+    }
+  },
+  "7": {
+    "inputs": {
+      "grayscale": false,
+      "remove_background": false,
+      "hyper_lora": [
+        "3",
+        0
+      ],
+      "images": [
+        "5",
+        0
+      ],
+      "face_attr": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAIDCond",
+    "_meta": {
+      "title": "HyperLoRA ID Cond"
+    }
+  },
+  "8": {
+    "inputs": {
+      "hyper_lora": [
+        "3",
+        0
+      ],
+      "id_cond": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAGenerateIDLoRA",
+    "_meta": {
+      "title": "HyperLoRA Generate ID LoRA"
+    }
+  },
+  "9": {
+    "inputs": {
+      "weight": 0.8,
+      "model": [
+        "1",
+        0
+      ],
+      "lora": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "HyperLoRAApplyLoRA",
+    "_meta": {
+      "title": "HyperLoRA Apply LoRA"
+    }
+  },
+  "11": {
+    "inputs": {
+      "seed": 693709576827048,
+      "steps": 10,
+      "cfg": 5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "9",
+        0
+      ],
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "12": {
+    "inputs": {
+      "text": "fcsks fxhks fhyks, Real photography, a girl, 4K, RAW photo, In a setting with a clear bright blue sky and lush green grass, place sunglasses on the person, framing them at the center, looking straight ahead with a bright smile, and adjust the shading so that the sunlight casts shadows on the face from slightly above at a one o'clock angle.\n\nsunglasses should be used from input image\n) (Nikon AF-S 105mm f/1.4E ED) ",
+      "token_normalization": "length+mean",
+      "weight_interpretation": "A1111",
+      "clip": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "BNK_CLIPTextEncodeAdvanced",
+    "_meta": {
+      "title": "CLIP Text Encode Positive (Advanced)"
+    }
+  },
+  "13": {
+    "inputs": {
+      "text": "big breast, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, bad feet",
+      "token_normalization": "length+mean",
+      "weight_interpretation": "A1111",
+      "clip": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "BNK_CLIPTextEncodeAdvanced",
+    "_meta": {
+      "title": "CLIP Text Encode Negative (Advanced)"
+    }
+  },
+  "14": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "빈 잠재 이미지"
+    }
+  },
+  "15": {
+    "inputs": {
+      "stop_at_clip_layer": -2,
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPSetLastLayer",
+    "_meta": {
+      "title": "CLIP 마지막 레이어 설정"
+    }
+  },
+  "16": {
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE 디코드"
+    }
+  },
+  "17": {
+    "inputs": {
+      "images": [
+        "16",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "이미지 미리보기"
+    }
+  },
+  "26": {
+    "inputs": {
+      "filename_prefix": "image_generated",
+      "images": [
+        "16",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "이미지 저장"
+    }
+  }
+}
