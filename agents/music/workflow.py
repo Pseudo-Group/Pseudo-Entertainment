@@ -6,10 +6,10 @@ StateGraph를 사용하여 음악 처리를 위한 워크플로우를 구축합�
 """
 
 from langgraph.graph import StateGraph
-
+from langgraph.graph.state import CompiledStateGraph
 from agents.base_workflow import BaseWorkflow
 from agents.music.modules.state import MusicState
-
+from agents.music.modules.nodes import LyricGenerationNode
 
 class MusicWorkflow(BaseWorkflow):
     """
@@ -23,7 +23,7 @@ class MusicWorkflow(BaseWorkflow):
         super().__init__()
         self.state = state
 
-    def build(self):
+    def build(self) -> CompiledStateGraph:
         """
         음악 Workflow 그래프 구축 메서드
 
@@ -36,21 +36,23 @@ class MusicWorkflow(BaseWorkflow):
         """
         builder = StateGraph(self.state)
 
-        builder.add_edge("__start__", "__end__")
+        # builder.add_edge("__start__", "__end__")
 
-        # 조건부 에지 추가 예시
-        # builder.add_conditional_edges(
-        #     "call_model",
-        #     # call_model 실행이 완료된 후, 다음 노드(들)는
-        #     # router의 출력을 기반으로 예약됩니다
-        #     router,
-        # )
+        builder.add_node("lyric_generation", LyricGenerationNode())
+        builder.add_edge("__start__", "lyric_generation")
+        builder.add_edge("lyric_generation", "__end__")
 
         workflow = builder.compile()  # 그래프 컴파일
         workflow.name = self.name  # Workflow 이름 설정
 
         return workflow
 
-
-# 음악 Workflow 인스턴스 생성
 music_workflow = MusicWorkflow(MusicState)
+
+if __name__ == "__main__":
+    # 음악 Workflow 인스턴스 생성
+    music_workflow = MusicWorkflow(MusicState)
+    graph = music_workflow.build()
+    input_query = input()
+    graph.invoke({f"query": "{input_query}"})
+    
