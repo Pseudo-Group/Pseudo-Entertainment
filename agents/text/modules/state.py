@@ -19,6 +19,7 @@ class TextState(TypedDict):
     content_type: str  # 콘텐츠의 유형 (예: "블로그 글", "소셜 미디어 포스트")
     query: str  # 사용자 쿼리 또는 요청사항
     persona_extracted: str  # 추출된 페르소나 전문
+    instagram_text: str  # 생성된 인스타그램 텍스트
     response: Annotated[
         list, add_messages
     ]  # 응답 메시지 목록 (add_messages로 주석되어 메시지 추가 기능 제공)
