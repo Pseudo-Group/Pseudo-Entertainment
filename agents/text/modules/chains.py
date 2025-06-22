@@ -106,25 +106,10 @@ def set_instagram_text_format_check_chain() -> RunnableLambda:
 
 def set_sensitive_text_check_chain() -> RunnableLambda:
     def is_text_safe(x):
-        text = x["text"]
-        api_url = "https://api.groq.com/openai/v1/chat/completions"
-        headers = {
-            "Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "model": "llama-guard-3-8b",
-            "messages": [{"role": "user", "content": text}],
-        }
-
+        model = get_groq_model("meta-llama/llama-guard-4-12b")
         try:
-            response = requests.post(api_url, headers=headers, json=payload)
-            if response.status_code == 200:
-                result = response.json()
-                message = (
-                    result.get("choices", [{}])[0].get("message", {}).get("content", "")
-                )
-                return "safe" in message.lower()
+            response = model.invoke(x["text"])
+            return "safe" in response.content.lower()
         except Exception as e:
             print(f"[ERROR] llama-guard request failed: {e}")
         return False
