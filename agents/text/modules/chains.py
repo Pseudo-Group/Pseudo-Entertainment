@@ -16,7 +16,7 @@ from langchain.schema.runnable import (
 )
 from langchain_core.output_parsers import StrOutputParser
 
-from agents.text.modules.models import get_openai_model
+from agents.text.modules.models import get_groq_model, get_openai_model
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.prompts import (
     get_extraction_prompt,
@@ -123,7 +123,15 @@ def set_text_persona_match_check_chain() -> RunnableLambda:
 
         text = x["text"]
         persona = x.get("persona", {})
-        persona_description = "\n".join([f"{k}: {v}" for k, v in persona.items()])
+
+        # 다양한 타입의 persona_description 처리: dict, str, list
+        if isinstance(persona, dict):
+            persona_description = "\n".join([f"{k}: {v}" for k, v in persona.items()])
+        elif isinstance(persona, list):
+            persona_description = "\n".join([str(p) for p in persona])
+        else:
+            persona_description = str(persona)
+
         prompt_template = get_persona_match_prompt()
         prompt = prompt_template.format(
             persona_description=persona_description, text=text
@@ -142,8 +150,10 @@ def set_text_persona_match_check_chain() -> RunnableLambda:
 def set_text_content_check_chain() -> RunnableSerializable:
     return (
         RunnablePassthrough.assign(
-            text=lambda x: x["response"][-1],
-            persona=lambda x: x.get("persona_extracted", {}),
+            text=lambda x: x if isinstance(x, str) else x.get("instagram_text", ""),
+            persona=lambda x: (
+                x.get("persona_extracted", {}) if isinstance(x, dict) else {}
+            ),
         )
         | RunnableMap(
             {
@@ -154,15 +164,17 @@ def set_text_content_check_chain() -> RunnableSerializable:
         )
         | RunnableLambda(
             lambda results: {
-                "success": all(results.values()),
-                "reason": [k for k, v in results.items() if not v],
-                "content_check_passed": all(results.values()),
-                **results,
-                "response": (
-                    "Text content is valid."
-                    if all(results.values())
-                    else "Text content failed validation checks."
-                ),
+                "text_content_checker_result": {
+                    "success": all(results.values()),
+                    "reason": [k for k, v in results.items() if not v],
+                    "content_check_passed": all(results.values()),
+                    **results,
+                    "message": (
+                        "Text content is valid."
+                        if all(results.values())
+                        else "Text content failed validation checks."
+                    ),
+                }
             }
         )
     )
