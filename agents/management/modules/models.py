@@ -5,6 +5,13 @@
 
 from langchain_openai import ChatOpenAI
 
+# .env 파일 로드
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv가 없어도 계속 진행
+
 
 def get_openai_model(temperature=0.7, top_p=0.9):
     """

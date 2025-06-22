@@ -2,8 +2,6 @@
 
 프롬프트 템플릿을 생성하는 함수 모듈을 구성합니다.
 기본적으로 PromptTemplate를 사용하여 프롬프트 템플릿을 생성하고 반환합니다.
-
-아래는 예시입니다.
 """
 
 from langchain_core.prompts import PromptTemplate
@@ -20,23 +18,15 @@ def get_resource_planning_prompt():
     4. 팀 구성원: 프로젝트에 참여하는 팀 구성원 목록
     5. 사용 가능한 리소스: 현재 사용 가능한 리소스 정보
 
-    프롬프트는 LLM에게 주어진 정보를 기반으로 프로젝트 관리에 적합한 리소스 계획을
-    수립하도록 지시합니다. 결과는 한국어로 반환됩니다.
-
     Returns:
         PromptTemplate: 리소스 계획 수립을 위한 프롬프트 템플릿 객체
     """
-    # 리소스 계획을 위한 프롬프트 템플릿 정의
     resource_planning_template = """You are an expert entertainment project manager tasked with creating resource plans for entertainment projects. You are provided with the following information:  
 
 1. Project ID: {project_id}  
-
 2. Request Type: {request_type}  
-
 3. User Query: {query}  
-
 4. Team Members: {team_members}  
-
 5. Available Resources: {resources_available}  
 
 Your Task:  
@@ -67,20 +57,76 @@ Based on the information provided, develop a comprehensive resource management p
 - Training or development opportunities  
 - Process improvement suggestions  
 
-Make your plan specific to the entertainment industry context and the particular request type. Be detailed yet concise, and ensure your recommendations are practical and actionable.  
-
 All responses must be in Korean.  
 
 Resource Management Plan:"""
 
-    # PromptTemplate 객체 생성 및 반환
     return PromptTemplate(
-        template=resource_planning_template,  # 정의된 프롬프트 템플릿
+        template=resource_planning_template,
         input_variables=[
             "project_id",
-            "request_type",
+            "request_type", 
             "query",
             "team_members",
             "resources_available",
-        ],  # 프롬프트에 삽입될 변수들
+        ],
+    )
+
+
+def get_search_planning_prompt():
+    """
+    IU 리서치를 위한 검색 계획 수립 프롬프트 템플릿을 생성합니다.
+    
+    Returns:
+        PromptTemplate: 검색 계획 수립을 위한 프롬프트 템플릿 객체
+    """
+    search_planning_template = """
+    당신은 웹 검색 전문가입니다.
+    주어진 주제에 대한 최신 반응과 정보를 효과적으로 조사하기 위한,
+    구체적이고 다양한 관점의 검색어 5개를 제안해주세요.
+    각 검색어는 한 줄씩 구분해서 작성해주세요.
+
+    주제 : {topic}
+    """
+    
+    return PromptTemplate(
+        template=search_planning_template,
+        input_variables=["topic"]
+    )
+
+
+def get_summary_prompt():
+    """
+    IU 리서치 결과 요약을 위한 프롬프트 템플릿을 생성합니다.
+    
+    Returns:
+        PromptTemplate: 요약을 위한 프롬프트 템플릿 객체
+    """
+    summary_template = """
+    당신은 마케팅 회사의 리서치 분석가입니다.
+    주어진 검색 결과들을 바탕으로, 
+    '{topic}'에 대한 최신 대중 반응과 동향을 분석하여 상세한 보고서를 작성해주세요.
+    
+    보고서는 다음 형식을 따라 Markdown 형식으로 작성해주세요.
+
+    # {topic} - 최신 동향 분석 보고서
+    
+    ## 1. 주요 동향 요약
+    - (가장 중요한 핵심 동향 2~3가지를 불릿 포인트로 요약)
+
+    ## 2. 세부 분석
+    - **긍정적 반응:** (사람들이 긍정적으로 반응하는 부분과 그 이유)
+    - **부정적 반응:** (사람들이 부정적으로 반응하는 부분과 그 이유)
+    - **기타 주목할 만한 점:** (새로운 앨범, 작품 활동, 팬 소통, 기타 이슈 등)
+
+    ## 3. 결론 및 종합 의견
+    (전체 내용을 종합하여 현재 대중의 전반적인 반응에 대한 결론을 내리세요.)
+
+    --- 검색 결과 원문 ---
+    {search_results}
+    """
+    
+    return PromptTemplate(
+        template=summary_template,
+        input_variables=["topic", "search_results"]
     )

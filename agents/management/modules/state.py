@@ -1,5 +1,5 @@
 """
-아래는 예시입니다.
+Management 상태 정의 모듈
 """
 
 from __future__ import annotations
@@ -10,7 +10,7 @@ from typing import Annotated, TypedDict, List, Dict, Optional
 from langgraph.graph.message import add_messages
 
 
-@dataclass
+# @dataclass
 class ManagementState(TypedDict):
     """
     관리(Management) Workflow의 상태를 정의하는 TypedDict 클래스
@@ -20,11 +20,18 @@ class ManagementState(TypedDict):
     """
 
     project_id: str  # 프로젝트 ID (예: "PRJ-2023-001", "EP-MARVEL-S01")
-    request_type: str  # 요청 유형 (예: "resource_allocation", "team_management", "creator_development")
+    request_type: str  # 요청 유형 (예: "resource_allocation", "team_management", "creator_development", "iu_research")
     query: str  # 사용자 쿼리 또는 요청사항
     team_members: Optional[List[str]] = None  # 팀 구성원 목록
     resources_available: Optional[Dict[str, any]] = None  # 사용 가능한 리소스 정보
     resource_plan: Optional[str] = None  # 리소스 계획 콘텐츠
+    
+    # IU Research 관련 상태 추가
+    topic: Optional[str] = None  # 조사 주제 (예: "아이유 최신 앨범 반응")
+    search_queries: Optional[List[str]] = None  # LLM이 생성한 구체적인 검색어 목록
+    search_results: Optional[str] = None  # Tavily를 통해 수집된 검색 결과
+    summary: Optional[str] = None  # 최종적으로 생성된 요약 보고서
+    
     response: Annotated[
         list, add_messages
     ]  # 응답 메시지 목록 (add_messages로 주석되어 메시지 추가 기능 제공)

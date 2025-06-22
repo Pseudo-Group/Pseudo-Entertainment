@@ -9,6 +9,8 @@ dependencies = [
     "langgraph>=0.3.27",
     "langchain-community>=0.2.17",
     "python-dotenv>=1.0.1",
+    "langchain-openai>=0.3.13",
+    "langchain-tavily"
 ]
 
 [dependency-groups]
