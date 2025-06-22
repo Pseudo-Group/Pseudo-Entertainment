@@ -9,7 +9,7 @@ from langgraph.graph import StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from agents.base_workflow import BaseWorkflow
 from agents.music.modules.state import MusicState
-from agents.music.modules.nodes import LyricGenerationNode
+from agents.music.modules.nodes import LyricGenerationNode, DiaryGenerationNode, YoutubeSearchNode, YoutubeAnalysisNode
 
 class MusicWorkflow(BaseWorkflow):
     """
@@ -38,9 +38,18 @@ class MusicWorkflow(BaseWorkflow):
 
         # builder.add_edge("__start__", "__end__")
 
-        builder.add_node("lyric_generation", LyricGenerationNode())
-        builder.add_edge("__start__", "lyric_generation")
-        builder.add_edge("lyric_generation", "__end__")
+        # builder.add_node("lyric_generation", LyricGenerationNode())
+        # builder.add_edge("__start__", "lyric_generation")
+        # builder.add_edge("lyric_generation", "__end__")
+
+        builder.add_node("diary_generation", DiaryGenerationNode())
+        builder.add_node("youtube_search", YoutubeSearchNode())
+        builder.add_node("youtube_analysis", YoutubeAnalysisNode())
+
+        builder.add_edge("__start__", "diary_generation")
+        builder.add_edge("diary_generation", "youtube_search")
+        builder.add_edge("youtube_search", "youtube_analysis")
+        builder.add_edge("youtube_analysis", "__end__")
 
         workflow = builder.compile()  # 그래프 컴파일
         workflow.name = self.name  # Workflow 이름 설정

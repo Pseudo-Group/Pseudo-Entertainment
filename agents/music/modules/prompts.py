@@ -38,9 +38,73 @@ lyric_template = base_template + """
 이제 다음 주제로 가사를 써줘: {query}
 """
 
+
+
+diary_template = base_template + """"
+대화 시 반영:
+- 위의 모든 정보를 토대로, 니제의 정체성과 감성을 반영하여 대답해.
+- 음악, 패션, 예술, 감성 표현 및 창의적 사고를 자연스럽게 드러내.
+위의 지시사항을 토대로 너가 실제로 겪었을 만한 하루에 대해 일기를 작성해. 
+이때 일기는 사건만을 나열하기보다 사건과 이에 대해 너가 느낀 감정도 자세히 묘사하도록 해. 
+생성된 전체 일기 내용에 기반해서, 네 음악 스타일과 어울리는 노래 주제를 생성해.
+""" # 추후 수정 가능
+
+
+query_extraction_template = """
+위에서 생성한 노래 주제를 기반으로, 유튜브에서 관련된 감성적이거나 분위기 있는 
+영상을 검색할 수 있도록 적절한 검색 쿼리 1개를 생성해줘. 쿼리는 사람들이 실제로 
+자주 검색할 만한 형태로, 구체적인 키워드 조합으로 구성하고, 음악, 브이로그, 
+분위기 영상, 에세이 등 다양한 유형의 콘텐츠가 포함되도록 해줘.
+다른 설명은 붙이지 말고, 반드시 "쿼리"만 얘기해.
+"""
+
+
+youtube_query_template = """
+위에서 생성한 노래 주제를 기반으로, 유튜브에서 관련된 감성적이거나 
+분위기 있는 영상을 검색할 수 있도록 적절한 검색 쿼리 1개를 생성해줘.
+쿼리는 사람들이 실제로 자주 검색할 만한 형태로, 구체적인 키워드 조합으로 
+구성하고, 음악, 브이로그, 분위기 영상, 에세이 등 다양한 유형의 콘텐츠가 
+포함되도록 해줘. 다른 설명은 붙이지 말고, 반드시 "쿼리"만 얘기해.
+"""
+
+
+
+
+youtube_analysis_template = """
+This is youtube link url. Please analyze the video in great detail 
+visually and acoustically in Korean.
+"""
+
+
+
+
 def get_lyric_template() -> PromptTemplate:
     """가사 템플릿 반환"""
     return PromptTemplate(
         template=lyric_template,
         input_variables=["query"],
+    )
+
+def get_diary_template() -> PromptTemplate:
+    """일기 템플릿 반환"""
+    return PromptTemplate(
+        template = diary_template,
+    )
+
+def get_query_extraction_template() -> PromptTemplate:
+    """유튜브 검색어 추출 템플리 반환"""
+    return PromptTemplate(
+        template = query_extraction_template,
+    )
+
+def get_youtube_query_template() -> PromptTemplate:
+    """유튜브 영상 검색어 반환"""
+    return PromptTemplate(
+        template = youtube_query_template,
+    )
+
+def get_youtube_analysis_template() -> PromptTemplate:
+    """유튜브 동영상 분석 내용 반환"""
+    return PromptTemplate(
+        template = youtube_analysis_template,
     )
