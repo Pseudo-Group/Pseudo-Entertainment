@@ -7,9 +7,9 @@
 from agents.base_node import BaseNode
 from agents.text.modules.chains import (
     set_extraction_chain,
+    set_instagram_text_chain,
     set_text_content_check_chain,
 )
-from agents.text.modules.chains import set_extraction_chain, set_instagram_text_chain
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.state import TextState
 

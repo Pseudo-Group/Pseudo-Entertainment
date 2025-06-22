@@ -16,9 +16,13 @@ from langchain.schema.runnable import (
 )
 from langchain_core.output_parsers import StrOutputParser
 
-from agents.text.modules.models import get_groq_model, get_openai_model
+from agents.text.modules.models import get_openai_model
 from agents.text.modules.persona import PERSONA
-from agents.text.modules.prompts import get_extraction_prompt, get_instagram_text_prompt, get_persona_match_prompt
+from agents.text.modules.prompts import (
+    get_extraction_prompt,
+    get_instagram_text_prompt,
+    get_persona_match_prompt,
+)
 
 
 def set_extraction_chain() -> RunnableSerializable:
@@ -56,6 +60,7 @@ def set_extraction_chain() -> RunnableSerializable:
         | StrOutputParser()  # 결과를 문자열로 변환
     )
 
+
 def set_instagram_text_chain() -> RunnableSerializable:
     """
     인스타그램 텍스트 생성에 사용할 LangChain 체인을 생성합니다.
@@ -80,13 +85,14 @@ def set_instagram_text_chain() -> RunnableSerializable:
     # LCEL을 사용하여 체인 구성
     return (
         # 입력에서 필요한 필드 추출 및 프롬프트에 전달
-            RunnablePassthrough.assign(
-                persona_extracted=lambda x: x["persona_extracted"],  # 추출된 페르소나
-            )
-            | prompt  # 프롬프트 적용
-            | model  # LLM 모델 호출
-            | StrOutputParser()  # 결과를 문자열로 변환
+        RunnablePassthrough.assign(
+            persona_extracted=lambda x: x["persona_extracted"],  # 추출된 페르소나
+        )
+        | prompt  # 프롬프트 적용
+        | model  # LLM 모델 호출
+        | StrOutputParser()  # 결과를 문자열로 변환
     )
+
 
 def set_instagram_text_format_check_chain() -> RunnableLambda:
     """
