@@ -42,18 +42,20 @@ text/
 }
 ```
 
-2. Text Agent의 의존성을 설치해주세요.
+2. `agents/text/text_agent.sh` 파일에 실행 권한을 부여하고 실행하세요.
 
 ```bash
-# text-agent 라는 이름의 도커 이미지 생성
-$ uv sync --package text
+$ chmod +x agents/text/text_agent.sh
+$ agents/text/text_agents.sh
 ```
 
-3. `LangGraph-API` 서버를 실행해주세요. `LangSmith UI` 서버가 자동으로 브라우저에서 팝업됩니다.
-
-```bash
-$ uv run langgraph dev
-```
+> 로컬 포트에 이미 연결된 프로세스가 존재하는 경우, 다음과 같은 문구가 CLI 창에 출력됩니다.
+>
+> ```bash
+> 포트 <PORT> 사용 중인 프로세스<PID>가 있습니다. 종료하시겠습니까? (y/N):
+> ```
+>
+> PID로 해당 프로세스를 확인하고 실행해주세요.
 
 ## 사용 방법
 
