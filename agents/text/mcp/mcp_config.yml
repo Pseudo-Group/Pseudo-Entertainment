@@ -1,7 +1,0 @@
-# 임시 세팅입니다.
-
-news:
-  host: "localhost"
-  port: 8000
-  url: "http://localhost:8000"
-  transport: "stdio"

@@ -2,19 +2,22 @@ import os
 from datetime import date, timedelta
 
 from mcp.server.fastmcp import FastMCP
-from mcp_config_loader import mcp_config
 from newsapi import NewsApiClient
+
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+MCP_NEWS_HOST = os.getenv("MCP_NEWS_HOST", "0.0.0.0")
+MCP_NEWS_PORT = int(os.getenv("MCP_NEWS_PORT", 8100))
+MCP_NEWS_TRANSPORT = os.getenv("MCP_NEWS_TRANSPORT", "stdio")
 
 news_mcp = FastMCP(
     name="news",
     instructions=(
         "Act as a news-scraping assistant that, given today's date, finds today's news for Instagram text content."
     ),
-    host=mcp_config.news_host,
-    port=mcp_config.news_port,
+    host=MCP_NEWS_HOST,
+    port=MCP_NEWS_PORT,
 )
-
-news_api = NewsApiClient(api_key=os.getenv("NEWS_API_KEY"))
+news_api = NewsApiClient(api_key=NEWS_API_KEY)
 
 
 @news_mcp.tool()
@@ -40,8 +43,6 @@ async def find_news(keywords: str) -> list[dict]:
 
 
 if __name__ == "__main__":
-    print(
-        f"news MCP server is running on {mcp_config.news_host}:{mcp_config.news_port}"
-    )
+    print(f"news MCP server is running on {MCP_NEWS_HOST}:{MCP_NEWS_PORT}")
 
-    news_mcp.run(transport=mcp_config.news_transport)
+    news_mcp.run(transport=MCP_NEWS_TRANSPORT)

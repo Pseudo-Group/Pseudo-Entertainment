@@ -67,11 +67,11 @@ def set_topic_generation_news_chain() -> RunnableSerializable:
     model = get_openai_model()
 
     # 문자열 입력을 딕셔너리로 변환
-    input_transformer = RunnableLambda(lambda x: {"query": x})
+    input_transformer = RunnableLambda(lambda x: {"content_topic": x})
 
     news_scraping_query_chain = (
         input_transformer
-        | RunnablePassthrough.assign(persona_details=lambda x: PERSONA)
+        | RunnablePassthrough.assign(content_topic=lambda x: x["content_topic"])
         | news_scraping_query_prompt
         | model
         | StrOutputParser()  # 결과를 문자열로 변환
