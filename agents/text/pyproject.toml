@@ -8,7 +8,7 @@ name = "text"
 version = "0.1.0"
 description = "텍스트 기반 콘텐츠 생성을 위한 LangGraph Workflow 모듈"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
     "langchain-mcp-adapters>=0.0.9",
     "langchain-openai>=0.3.12",
