@@ -104,24 +104,16 @@ def get_news_scraping_query_prompt() -> PromptTemplate:
     """
     뉴스 스크래핑을 위한 프롬프트 템플릿을 생성합니다.
     """
-    prompt_template = """You are an assistant responsible for generating search queries for retrieving news articles.
-You have to generate search query that aligns with given persona: {persona_details}
+    prompt_template = """You are **News Summary Agent** that search news articles based on given content topic:
+{content_topic}
 
-Your tasks:
-- To read a given persona outlining the user’s interests and, based on that persona.
-- produce a concise and precise news search keyword focused on a specific topic, event, or domain that aligns with
-those interests.
+You have to summarize news articles based on given content topic for instagram post.
 
-Rules:
-- The keyword must be short and clear.
-- It must target a topic, event, or domain suitable for news search.
-- Output only the search query—no extra text.
-
-search query: """
+News Summary: """
 
     return PromptTemplate(
         template=prompt_template,
-        input_variables=["persona_details"],
+        input_variables=["content_topic"],
     )
 
 

@@ -2,11 +2,13 @@
 
 ## 개요
 
-이 모듈은 Pseudo Entertainment Company의 텍스트 기반 콘텐츠 생성을 담당하는 LangGraph Workflow입니다. 다양한 유형의 텍스트 콘텐츠를 생성하기 위한 주요 노드와 Workflow를 제공합니다.
+이 모듈은 Act 1: Entertainment의 텍스트 기반 콘텐츠 생성을 담당하는 LangGraph Workflow입니다. 다양한 유형의 텍스트 콘텐츠를 생성하기 위한 주요 노드와 Workflow를 제공합니다.
 
 ## 주요 노드
 
-<!-- 노드에 대한 설명을 추가해주세요. -->
+- `PersonaExtractionNode`: 콘텐츠 종류에 적합한 페르소나를 추출하는 노드
+- `GenTextNode`: 추출된 페르소나를 바탕으로 인스타그램 포스트에 적합한 텍스트를 생성하는 노드
+- `TopicFromNewsNode`: 주어진 키워드에 대한 뉴스 기사를 스크래핑하는 노드
 
 ## 구조
 
@@ -24,6 +26,33 @@ text/
 ├── pyproject.toml     # 프로젝트 관리자
 ├── README.md          # 이 문서
 └── workflow.py        # Text Agent의 Workflow들 정의
+```
+
+## 실행 방법
+
+1. `langgraph.json` 파일을 Text Agent에 맞춰 설정해주세요.
+
+```json
+{
+  "dependencies": ["./agents/text"],
+  "graphs": {
+    "text": "./agents/text/workflow.py:text_workflow"
+  },
+  "env": ".env"
+}
+```
+
+2. Text Agent의 의존성을 설치해주세요.
+
+```bash
+# text-agent 라는 이름의 도커 이미지 생성
+$ uv sync --package text
+```
+
+3. `LangGraph-API` 서버를 실행해주세요. `LangSmith UI` 서버가 자동으로 브라우저에서 팝업됩니다.
+
+```bash
+$ uv run langgraph dev
 ```
 
 ## 사용 방법
@@ -56,4 +85,4 @@ result = text_workflow().invoke(initial_state)
 
 ## 라이센스
 
-이 모듈은 Pseudo Group의 Pseudo Entertainment Company의 내부 프로젝트로, 그룹 정책에 따른 라이센스가 적용됩니다.
+이 모듈은 Proact0 의 Act 1: Entertainment 의 내부 프로젝트로, 그룹 정책에 따른 라이센스가 적용됩니다.
