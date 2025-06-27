@@ -10,6 +10,27 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 # from agents.image.modules.models import get_openai_model
 # from agents.image.modules.prompts import get_image_generation_prompt
 
+# chains.py
+import os
+
+from dotenv import load_dotenv
+from langchain.chains import LLMChain
+from langchain_groq import ChatGroq
+from pydantic import SecretStr
+
+from agents.image.modules.prompts import outfit_prompt_template
+
+load_dotenv()  # .env 파일에서 환경변수 로딩
+
+
+def get_outfit_prompt_chain():
+    llm = ChatGroq(
+        api_key=SecretStr(os.getenv("GROQ_API_KEY") or ""),
+        model="llama3-8b-8192",
+        temperature=0,
+    )
+    return LLMChain(llm=llm, prompt=outfit_prompt_template)
+
 
 # def set_image_generation_chain() -> RunnableSerializable:
 #     """

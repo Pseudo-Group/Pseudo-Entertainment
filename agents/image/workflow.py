@@ -8,6 +8,7 @@ StateGraph를 사용하여 이미지 처리를 위한 워크플로우를 구축�
 from langgraph.graph import StateGraph
 
 from agents.base_workflow import BaseWorkflow
+from agents.image.modules.nodes import generate_outfit_prompt_node
 from agents.image.modules.state import ImageState
 
 
@@ -43,6 +44,11 @@ class ImageWorkflow(BaseWorkflow):
         # builder.add_node("image_generation", ImageGenerationNode())
         # builder.add_edge("__start__", "image_generation")
         # builder.add_edge("image_generation", "__end__")
+
+        # 의상 프롬프트 생성 노드 추가
+        builder.add_node("generate_outfit_prompt", generate_outfit_prompt_node)
+        builder.add_edge("__start__", "generate_outfit_prompt")
+        builder.add_edge("generate_outfit_prompt", "__end__")
 
         workflow = builder.compile()  # 그래프 컴파일
         workflow.name = self.name  # Workflow 이름 설정

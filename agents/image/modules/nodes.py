@@ -4,6 +4,16 @@
 해당 클래스 모듈은 각각 노드 클래스가 BaseNode를 상속받아 노드 클래스를 구현하는 모듈입니다.
 """
 
+from agents.image.modules.chains import get_outfit_prompt_chain
+
+
+def generate_outfit_prompt_node(state):
+    user_request = state["query"]
+    chain = get_outfit_prompt_chain()
+    result = chain.run(user_request)
+    return {**state, "outfit_prompt": result}
+
+
 # from agents.base_node import BaseNode
 
 # from agents.image.modules.chains import set_image_generation_chain
