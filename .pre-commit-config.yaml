@@ -1,40 +1,11 @@
-exclude: '(^|/)(\.venv|venv|node_modules|__pycache__|migrations|static|templates|\.git|\.github|\.langgraph_api|media)(/|$)|\.(env(\.example)?|gitignore)$|LICENSE|README\.md|langgraph\.json|uv\.lock'
+exclude: '(^|/)(\.venv|venv|node_modules|__pycache__|migrations|static|templates|\.git|\.github|\.langgraph_api|media)(/|$)|^tests(/|$)|^unit_tests(/|$)|\.(env(\.example)?|gitignore)$|LICENSE|README\.md|langgraph\.json|uv\.lock'
 
 repos:
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.6.13
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.0
     hooks:
-      - id: uv-lock
-        files: '^pyproject\.toml$'
-        always_run: true
-
-  - repo: https://github.com/PyCQA/flake8
-    rev: 7.2.0
-    hooks:
-      - id: flake8
-        args:
-          [
-            "--max-line-length=120",
-            "--ignore=E203,E302,W503",
-            "--exclude=.venv,venv,node_modules,__pycache__,migrations,static,templates",
-          ]
-        language_version: python3.13
-        files: '^(?!.*(?:/\.venv/|/venv/|/node_modules/|/__pycache__/|/migrations/|/static/|/templates/)).*\.py$'
-        always_run: true
-
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
-    hooks:
-      - id: black
-        language_version: python3.13
-        # 변경된 Python 파일에만 적용되도록 파일 필터를 지정합니다.
-        files: '\.py$'
-
-  - repo: https://github.com/PyCQA/isort
-    rev: 6.0.1
-    hooks:
-      - id: isort
-        args: ["--profile=black"]
-        language_version: python3.13
-        # 변경된 Python 파일에만 적용되도록 파일 필터를 지정합니다.
-        files: '\.py$'
+      - id: ruff
+        types_or: [python, pyi]
+        args: [--fix]
+      - id: ruff-format
+        types_or: [python, pyi]
