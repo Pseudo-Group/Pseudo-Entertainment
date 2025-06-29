@@ -84,3 +84,85 @@ Resource Management Plan:"""
             "resources_available",
         ],  # 프롬프트에 삽입될 변수들
     )
+
+
+def get_content_verification_prompt():
+    """
+    컨텐츠 검증 결과를 분석하는 프롬프트 템플릿을 생성합니다.
+
+    Returns:
+        PromptTemplate: 컨텐츠 검증 분석을 위한 프롬프트 템플릿 객체
+    """
+    content_verification_template = """당신은 엔터테인먼트 컨텐츠 관리 전문가입니다.
+
+다음 컨텐츠 검증 결과를 분석하고 한국어로 요약해주세요:
+
+검증 결과: {verification_result}
+
+다음 항목들을 포함하여 분석해주세요:
+1. 검증 결과 요약
+2. 주요 위험 요소
+3. 개선 제안사항
+4. 권장 조치사항
+
+분석 결과:"""
+
+    return PromptTemplate(
+        template=content_verification_template,
+        input_variables=["verification_result"],
+    )
+
+
+def get_news_analysis_prompt():
+    """
+    뉴스 분석 결과를 요약하는 프롬프트 템플릿을 생성합니다.
+
+    Returns:
+        PromptTemplate: 뉴스 분석 요약을 위한 프롬프트 템플릿 객체
+    """
+    news_analysis_template = """당신은 엔터테인먼트 뉴스 분석 전문가입니다.
+
+다음 뉴스 분석 결과를 분석하고 한국어로 요약해주세요:
+
+뉴스 키워드: {keywords}
+뉴스 결과: {news_result}
+
+다음 항목들을 포함하여 분석해주세요:
+1. 주요 뉴스 요약
+2. 엔터테인먼트 산업에 미치는 영향
+3. 컨텐츠 제작에 활용할 수 있는 인사이트
+4. 추천 액션 아이템
+
+분석 결과:"""
+
+    return PromptTemplate(
+        template=news_analysis_template,
+        input_variables=["keywords", "news_result"],
+    )
+
+
+def get_trending_analysis_prompt():
+    """
+    트렌딩 토픽 분석 결과를 요약하는 프롬프트 템플릿을 생성합니다.
+
+    Returns:
+        PromptTemplate: 트렌딩 분석 요약을 위한 프롬프트 템플릿 객체
+    """
+    trending_analysis_template = """당신은 엔터테인먼트 트렌드 분석 전문가입니다.
+
+다음 트렌딩 토픽 분석 결과를 분석하고 한국어로 요약해주세요:
+
+트렌딩 결과: {trending_result}
+
+다음 항목들을 포함하여 분석해주세요:
+1. 주요 트렌딩 토픽 요약
+2. 엔터테인먼트 산업 트렌드 분석
+3. 컨텐츠 제작 기회 요소
+4. 전략적 제안사항
+
+분석 결과:"""
+
+    return PromptTemplate(
+        template=trending_analysis_template,
+        input_variables=["trending_result"],
+    )

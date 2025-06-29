@@ -11,6 +11,46 @@ Workflow가 확장됨에 따라 다양한 조건부 라우팅 함수를 이 모�
 예를 들어, 콘텐츠 유형에 따른 라우팅, 사용자 요청 유형에 따른 라우팅 등을 구현할 수 있습니다.
 """
 
+from typing import Literal
+
+
+def route_request(
+    state,
+) -> Literal[
+    "resource_management",
+    "instagram_content_verification",
+    "instagram_policies_search",
+    "content_risks_analysis",
+]:
+    """
+    요청 유형에 따라 적절한 노드로 라우팅하는 함수
+
+    이 함수는 상태의 request_type을 기반으로 다음에 실행할 노드를 결정합니다.
+
+    Args:
+        state: 현재 Workflow 상태 객체
+
+    Returns:
+        str: 다음에 실행할 노드의 이름
+    """
+    request_type = state.get("request_type", "").lower()
+
+    # 요청 유형에 따른 라우팅
+    if "content" in request_type or "verify" in request_type or "검증" in request_type:
+        return "instagram_content_verification"
+    elif (
+        "policy" in request_type
+        or "정책" in request_type
+        or "guideline" in request_type
+    ):
+        return "instagram_policies_search"
+    elif "risk" in request_type or "위험" in request_type or "분석" in request_type:
+        return "content_risks_analysis"
+    else:
+        # 기본적으로 리소스 관리로 라우팅
+        return "resource_management"
+
+
 # from typing import Literal
 
 

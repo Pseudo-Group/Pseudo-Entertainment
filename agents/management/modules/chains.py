@@ -5,11 +5,18 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 
 """
 
+from typing import Any, Dict
+
 from langchain.schema.runnable import RunnablePassthrough, RunnableSerializable
 from langchain_core.output_parsers import StrOutputParser
 
 from agents.management.modules.models import get_openai_model
 from agents.management.modules.prompts import get_resource_planning_prompt
+from agents.management.modules.tools import (
+    analyze_content_risks_tool,
+    search_instagram_policies_tool,
+    verify_instagram_content_tool,
+)
 
 
 def set_resource_planning_chain() -> RunnableSerializable:
@@ -49,3 +56,45 @@ def set_resource_planning_chain() -> RunnableSerializable:
         | model  # LLM 모델 호출
         | StrOutputParser()  # 결과를 문자열로 변환
     )
+
+
+async def set_instagram_content_verification_chain(
+    content_text: str, content_type: str = "text"
+) -> Dict[str, Any]:
+    """
+    인스타그램 컨텐츠 검증을 위한 체인을 생성합니다.
+
+    Args:
+        content_text: 검증할 컨텐츠 텍스트
+        content_type: 컨텐츠 유형
+
+    Returns:
+        Dict[str, Any]: 검증 결과
+    """
+    return await verify_instagram_content_tool(content_text, content_type)
+
+
+async def set_instagram_policies_search_chain(keywords: str) -> Dict[str, Any]:
+    """
+    인스타그램 정책 검색을 위한 체인을 생성합니다.
+
+    Args:
+        keywords: 검색할 정책 키워드
+
+    Returns:
+        Dict[str, Any]: 정책 검색 결과
+    """
+    return await search_instagram_policies_tool(keywords)
+
+
+async def set_content_risks_analysis_chain(content_text: str) -> Dict[str, Any]:
+    """
+    컨텐츠 위험 요소 분석을 위한 체인을 생성합니다.
+
+    Args:
+        content_text: 분석할 컨텐츠 텍스트
+
+    Returns:
+        Dict[str, Any]: 위험 요소 분석 결과
+    """
+    return await analyze_content_risks_tool(content_text)
