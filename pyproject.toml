@@ -25,3 +25,17 @@ exclude = ["**/__pycache__/*", "**/node_modules/*", ".venv", "**/.venv"]
 
 [tool.uv.workspace]
 members = ["agents/text", "agents/music", "agents/image", "agents/management"]
+
+[tool.ruff]
+exclude = [
+    "(^|/)(.venv|venv|node_modules|__pycache__|migrations|static|templates|.git|.github|.langgraph_api|media)(/|$)",
+    "^tests(/|$)",
+    "^unit_tests(/|$)",
+    ".env",
+    ".env.example",
+    ".gitignore",
+    "LICENSE",
+    "README.md",
+    "langgraph.json",
+    "uv.lock"
+]
