@@ -2,6 +2,7 @@ import comfy.options
 comfy.options.enable_args_parsing()
 
 import os
+import zipfile
 import importlib.util
 import folder_paths
 import time
@@ -11,6 +12,9 @@ import itertools
 import utils.extra_config
 import logging
 import sys
+
+from huggingface_hub import hf_hub_download
+
 
 if __name__ == "__main__":
     #NOTE: These do not do anything on core ComfyUI, they are for custom nodes.
@@ -302,11 +306,74 @@ def start_comfyui(asyncio_loop=None):
     # Returning these so that other code can integrate with the ComfyUI loop and server
     return asyncio_loop, prompt_server, start_all
 
+def _hyperlora_models_check():
+    """
+    Check if the hyperlora models folder exists.
+    If it does not exist, download and extract the models from Hugging Face.
+    """
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    models_dir = os.path.join(BASE_DIR, "models")
+    file_check = []
+    check_point_model_check = os.path.join(models_dir, "checkpoint", "realvisxlV50_v40Bakedvae.safetensors")
+    if os.path.exists(check_point_model_check):
+        logging.info("hyperlora checkpoint model already exists, skipping download.")
+        file_check.append(check_point_model_check)
+    
+
+    if os.path.exists(os.path.join(models_dir, "hyper_lora")):
+        logging.info("hyperlora models already exist, skipping download.")
+        file_check.append(os.path.join(models_dir, "hyper_lora"))
+    
+    if os.path.exists(os.path.join(models_dir, "insightface")):
+        logging.info("insightface models already exist, skipping download.")
+        file_check.append(os.path.join(models_dir, "insightface"))
+
+    if os.path.exists(os.path.join(models_dir, "sams")):
+        logging.info("sams models already exist, skipping download.")
+        file_check.append(os.path.join(models_dir, "sams"))
+    
+    if os.path.exists(os.path.join(models_dir, "ultralytics")):
+        logging.info("ultralytics models already exist, skipping download.")
+        file_check.append(os.path.join(models_dir, "ultralytics"))
+    
+    if sum(file_check) == 5:
+        logging.info("All hyperlora models already exist, skipping download.")
+        return True
+    else:
+        logging.info("Some hyperlora models are missing, downloading...")
+        return False
+
+def download_and_extract_models():
+    """
+    model weight 폴더가 존재하는지 확인하고, 만일 없다면 huggingface에서 다운로드하여 압축 해제합니다.
+    models_dir 경로는 ComfyUI/models로 설정되어 있습니다.
+    """
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    models_dir = os.path.join(BASE_DIR, "models")
+    
+    if not _hyperlora_models_check():
+        logging.info("hyperlora weight 폴더들이 없으므로 다운로드 시작")
+
+        zip_path = hf_hub_download(
+            repo_id="nonsignal007/hyperlora_models",
+            filename="models.zip",
+            repo_type="model"
+        )
+
+        with zipfile.ZipFile(zip_path, "r") as zip_ref:
+            zip_ref.extractall(models_dir)
+
+        logging.info("모델 다운로드 및 압축 해제 완료")
+    else:
+        logging.info("hyperlora weight 폴더들이 이미 존재합니다")
 
 if __name__ == "__main__":
     # Running directly, just start ComfyUI.
     logging.info("Python version: {}".format(sys.version))
     logging.info("ComfyUI version: {}".format(comfyui_version.__version__))
+
+    download_and_extract_models()
 
     event_loop, _, start_all_func = start_comfyui()
     try:

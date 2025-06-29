@@ -1,0 +1,2 @@
+from .NewFaceGeneration import NewFaceGenerationNode
+from .FixedFaceGeneration import FixedFaceGenerationNode

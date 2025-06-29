@@ -6,9 +6,10 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 
 from langchain.schema.runnable import RunnableLambda
 from langchain_core.messages import HumanMessage
+from typing_extensions import TypedDict
 
 from agents.image.modules.models import get_gemini_model
-from agents.image.modules.prompts import get_image_generation_prompt
+from agents.image.modules.prompts import get_image_generation_prompt, get_comfyui_generation_prompt
 
 def set_face_generation_chain() -> RunnableLambda:
     """
@@ -42,6 +43,31 @@ def set_face_generation_chain() -> RunnableLambda:
         )
         return response
     return RunnableLambda(get_chain)
+
+
+
+
+def set_comfyui_generation_chain():
+    """
+    ComfyUI에 요청하는 Payload를 생성하기 위한 Chain 입니다.
+    """ 
+    class ComfyUIOutputSchema(TypedDict):
+        """
+        ComfyUI에서 반환되는 JSON 스키마를 정의합니다.
+        """
+        prompt: str
+        negative_prompt: str
+
+    prompt = get_comfyui_generation_prompt()
+    
+    model = get_gemini_model().with_structured_output(ComfyUIOutputSchema)
+
+
+    chain = prompt | model
+
+    return chain
+
+
 
 def set_image_to_image_generation_chain() -> RunnableLambda:
     """

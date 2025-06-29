@@ -4,11 +4,8 @@
 해당 클래스 모듈은 각각 노드 클래스가 BaseNode를 상속받아 노드 클래스를 구현하는 모듈입니다.
 """
 import os
-import json
 import base64
 import logging
-import asyncio
-import websockets
 
 from PIL import Image
 from io import BytesIO
@@ -16,13 +13,15 @@ from io import BytesIO
 from agents.base_node import BaseNode
 
 from agents.image.modules.chains import set_face_generation_chain
+from agents.image.modules.models import get_gemini_model
 # from agents.image.modules.chains import set_image_generation_chain
 
-class FixedFaceGenerationNode(BaseNode):
+class NewFaceGenerationNode(BaseNode):
     """
     고정된 얼굴 생성을 위한 노드
     
-    이 노드는 Text Agent의 Extracted Persona를 사용하여 고정된 얼굴을 생성하는 기능을 담당합니다.
+    이 노드는 Text Agent의 Extracted Persona를 사용하여 페르소나에 맞는 얼굴 이미지를 생성합니다.
+    생성된 이미지는 ComfyUI에 전달되어 최종 이미지로 사용됩니다.
     """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -62,6 +61,7 @@ class FixedFaceGenerationNode(BaseNode):
         image_path = os.path.abspath(os.path.join("agents/image/modules/comfyui_server/ComfyUI/input", "fixed_image.png"))
         image = Image.open(BytesIO(base64.b64decode(response.content[-1].get('image_url').get('url').split(',')[-1])))
         image.save(image_path)
+        logging.info(f"Image saved at {image_path}")
 
         # 응답 반환
         return {
@@ -69,12 +69,3 @@ class FixedFaceGenerationNode(BaseNode):
             "fixed_image" : response.content[-1].get('image_url').get('url').split(',')[-1],
             "fixed_image_path" : image_path,
         }
-
-class ImageToImageGenerationNode(BaseNode):
-    """
-    고정된 이미지를 사용하여 Prompt에 맞게 새로운 이미지를 생성하는 노드
-    """
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        

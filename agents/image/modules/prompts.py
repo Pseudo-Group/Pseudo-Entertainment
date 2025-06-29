@@ -28,3 +28,31 @@ The final output must be a clean portrait focusing entirely on the subject witho
         template=image_generation_template,
         input_variables=["persona"],
     )
+
+def get_comfyui_generation_prompt():
+    """
+    ComfyUI에 요청하는 Payload를 생성하기 위한 프롬프트
+    """
+    comfyui_generation_template = """
+너는 이미지 생성 프롬프트를 만드는 전문가야.
+
+다음은 인물의 페르소나 정보야:
+--------------------
+{persona}
+--------------------
+
+위 페르소나를 바탕으로, 그 인물과 어울리는 **이미지 생성용 prompt**와 **negative_prompt**를 각각 작성해줘.
+
+형식은 아래와 같아:
+
+```json
+{{
+  "prompt": "<페르소나와 어울리는 감성, 스타일, 배경 등을 담은 photorealistic 이미지 생성 프롬프트>",
+  "negative_prompt": "<이 인물이 싫어할 요소나 방해가 될 요소를 배제하기 위한 프롬프트 (예: nsfw, lowres 등)>"
+}}
+```
+"""
+    return PromptTemplate(
+        template=comfyui_generation_template,
+        input_variables=["persona"],
+    )

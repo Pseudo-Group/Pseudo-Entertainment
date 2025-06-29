@@ -10,7 +10,9 @@ description = "이미지 기반 콘텐츠 생성을 위한 LangGraph Workflow �
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "huggingface-hub>=0.31.1",
     "langchain-google-genai>=2.1.3",
+    "langchain-mcp-adapters>=0.0.11",
     "mcp>=1.8.0",
     "requests>=2.32.3",
     "websockets>=15.0.1",

@@ -168,3 +168,6 @@ poc*
 
 ## model weight
 models/
+
+## .DS_Store
+.DS_Store
