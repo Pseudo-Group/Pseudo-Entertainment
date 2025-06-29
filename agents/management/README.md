@@ -29,45 +29,10 @@ management/
 
 ## 사용 방법
 
-### 1. LangGraph 서버를 통한 실행
-
-프로젝트 루트에서 LangGraph 개발 서버 실행:
-```bash
-uv run langgraph dev
-```
-
-그 후 웹 UI 접속:
-- Studio UI: https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
-- API 문서: http://127.0.0.1:2024/docs
-
-### 2. Jupyter Notebook을 통한 테스트
-
-프로젝트 구조를 그대로 유지하면서 로컬에서 테스트할 수 있습니다:
-
-```bash
-# management 폴더로 이동
-cd agents/management
-
-# Jupyter notebook 실행
-uv run jupyter notebook test_workflow_structured.ipynb
-```
-
-노트북에서는:
-- BaseWorkflow와 BaseNode를 상속받은 구현 확인
-- 개별 노드 단위 테스트
-- 전체 워크플로우 실행
-- 스트리밍 모드 테스트
-- 다양한 시나리오 실행
-
-### 3. Python 코드에서 직접 사용
-
 관리(Management) Workflow는 다음과 같이 사용할 수 있습니다:
 
 ```python
 from agents.management.workflow import management_workflow
-
-# 워크플로우 컴파일
-compiled_workflow = management_workflow.build()
 
 # 초기 상태 설정
 initial_state = {
@@ -75,19 +40,11 @@ initial_state = {
     "request_type": "resource_allocation",  # 요청 유형
     "query": "개발 팀 리소스 계획 수립",   # 사용자 쿼리
     "team_members": ["Kim", "Lee", "Park"], # 팀 구성원
-    "response": [],                     # 응답 메시지 (빈 리스트로 초기화)
-    "resources_available": {            # 사용 가능한 리소스 (선택)
-        "budget": "5억원",
-        "timeline": "6개월"
-    }
+    "response": []                      # 응답 메시지 (빈 리스트로 초기화)
 }
 
 # Workflow 실행
-result = compiled_workflow.invoke(initial_state)
-
-# 스트리밍 모드로 실행 (실시간 진행 상황 확인)
-for event in compiled_workflow.stream(initial_state):
-    print(event)
+result = management_workflow().invoke(initial_state)
 ```
 
 ## 확장 방법

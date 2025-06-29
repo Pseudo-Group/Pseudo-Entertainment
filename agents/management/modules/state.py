@@ -1,37 +1,32 @@
 """
-Management 상태 정의 모듈
+02_data_model.md에 정의된 데이터 모델에 따른 상태 정의
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Annotated, TypedDict, List, Dict, Optional
-
+from typing import Annotated, TypedDict, List, Optional
 from langgraph.graph.message import add_messages
 
+from agents.management.modules.models import SearchResult, IssueAnalysis
 
-# @dataclass
+
 class ManagementState(TypedDict):
     """
-    관리(Management) Workflow의 상태를 정의하는 TypedDict 클래스
+    인플루언서 이슈 관리 Workflow의 상태를 정의하는 TypedDict 클래스
 
-    프로젝트, 팀, 리소스의 관리와 크리에이터 직업 성장을 위한 Workflow에서 사용되는 상태 정보를 정의합니다.
-    LangGraph의 상태 관리를 위한 클래스로, Workflow 내에서 처리되는 데이터의 형태와 구조를 지정합니다.
+    02_data_model.md 섹션 1.1에 정의된 구조를 따릅니다.
+    아이유를 레퍼런스로 한 인플루언서 이슈 자료 수집을 위한 상태 정보를 정의합니다.
     """
 
-    project_id: str  # 프로젝트 ID (예: "PRJ-2023-001", "EP-MARVEL-S01")
-    request_type: str  # 요청 유형 (예: "resource_allocation", "team_management", "creator_development", "iu_research")
-    query: str  # 사용자 쿼리 또는 요청사항
-    team_members: Optional[List[str]] = None  # 팀 구성원 목록
-    resources_available: Optional[Dict[str, any]] = None  # 사용 가능한 리소스 정보
-    resource_plan: Optional[str] = None  # 리소스 계획 콘텐츠
+    # 입력 데이터
+    query: str                          # 초기 검색 쿼리 (기본값: "아이유")
     
-    # IU Research 관련 상태 추가
-    topic: Optional[str] = None  # 조사 주제 (예: "아이유 최신 앨범 반응")
-    search_queries: Optional[List[str]] = None  # LLM이 생성한 구체적인 검색어 목록
-    search_results: Optional[str] = None  # Tavily를 통해 수집된 검색 결과
-    summary: Optional[str] = None  # 최종적으로 생성된 요약 보고서
+    # 처리 단계별 결과
+    initial_search_results: Optional[List[SearchResult]] = None     # 1차 검색 결과 목록
+    extracted_keywords: Optional[List[str]] = None                  # LLM이 추출한 키워드 목록
+    detailed_search_results: Optional[List[SearchResult]] = None    # 2차 세부 검색 결과 목록
+    analyzed_issues: Optional[List[IssueAnalysis]] = None           # LLM 분석된 이슈 목록
     
-    response: Annotated[
-        list, add_messages
-    ]  # 응답 메시지 목록 (add_messages로 주석되어 메시지 추가 기능 제공)
+    # 응답 및 에러
+    response: Annotated[list, add_messages]                         # LangGraph 응답 메시지
+    error_messages: Optional[List[str]] = None                      # 에러 메시지 목록
