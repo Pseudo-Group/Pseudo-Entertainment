@@ -314,27 +314,42 @@ def _hyperlora_models_check():
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     models_dir = os.path.join(BASE_DIR, "models")
     file_check = []
-    check_point_model_check = os.path.join(models_dir, "checkpoint", "realvisxlV50_v40Bakedvae.safetensors")
+    check_point_model_check = os.path.join(models_dir, "checkpoints", "realvisxlV50_v40Bakedvae.safetensors")
     if os.path.exists(check_point_model_check):
         logging.info("hyperlora checkpoint model already exists, skipping download.")
-        file_check.append(check_point_model_check)
+        file_check.append(True)
+    else:
+        logging.info("hyperlora checkpoint model does not exist, will download.")
+        file_check.append(False)
     
 
     if os.path.exists(os.path.join(models_dir, "hyper_lora")):
         logging.info("hyperlora models already exist, skipping download.")
-        file_check.append(os.path.join(models_dir, "hyper_lora"))
+        file_check.append(True)
+    else:
+        logging.info("hyperlora models do not exist, will download.")
+        file_check.append(False)
     
     if os.path.exists(os.path.join(models_dir, "insightface")):
         logging.info("insightface models already exist, skipping download.")
-        file_check.append(os.path.join(models_dir, "insightface"))
+        file_check.append(True)
+    else:
+        logging.info("insightface models do not exist, will download.")
+        file_check.append(False)
 
     if os.path.exists(os.path.join(models_dir, "sams")):
         logging.info("sams models already exist, skipping download.")
-        file_check.append(os.path.join(models_dir, "sams"))
+        file_check.append(True)
+    else:
+        logging.info("sams models do not exist, will download.")
+        file_check.append(False)
     
     if os.path.exists(os.path.join(models_dir, "ultralytics")):
         logging.info("ultralytics models already exist, skipping download.")
-        file_check.append(os.path.join(models_dir, "ultralytics"))
+        file_check.append(True)
+    else:
+        logging.info("ultralytics models do not exist, will download.")
+        file_check.append(False)
     
     if sum(file_check) == 5:
         logging.info("All hyperlora models already exist, skipping download.")
