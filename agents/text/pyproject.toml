@@ -10,5 +10,6 @@ description = "텍스트 기반 콘텐츠 생성을 위한 LangGraph Workflow �
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "langchain-groq>=0.3.2",
     "langchain-openai>=0.3.12",
 ]
