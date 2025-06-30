@@ -5,9 +5,6 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 
 """
 
-import os
-
-import requests
 from langchain.schema.runnable import (
     RunnableLambda,
     RunnableMap,

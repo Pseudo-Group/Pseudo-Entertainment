@@ -3,7 +3,7 @@
 기본적으로 사용할 모델 인스턴스를 설정하고 생성하고 반환시킵니다.
 """
 
-# from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 
 def get_openai_model(temperature=0.7, top_p=0.9):
