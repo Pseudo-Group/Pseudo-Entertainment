@@ -369,6 +369,9 @@ def finalize_node(state: ManagementState) -> ManagementState:
         print(f"   • {action}")
     
     print(f"\n✅ 워크플로우 완료 (성공률: {success_rate:.1f}%)")
+
+    print("--- 최종 분석 보고서 (완료 후) ---")
+    print(final_report)
     
     return state
 
