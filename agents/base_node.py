@@ -22,7 +22,7 @@ class BaseNode(ABC):
     ```
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self,*args, **kwargs):
         """
         노드 초기화 메서드
 

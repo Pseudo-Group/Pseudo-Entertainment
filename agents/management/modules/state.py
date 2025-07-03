@@ -4,13 +4,16 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+#from dataclasses import dataclass
 from typing import Annotated, TypedDict, List, Dict, Optional
+
+from pydantic import BaseModel, Field, ConfigDict
+from selenium.webdriver.chrome.webdriver import WebDriver
 
 from langgraph.graph.message import add_messages
 
 
-@dataclass
+#@dataclass <- # TypedDict는 @dataclass와 함께 사용할 수 없어서 제거함
 class ManagementState(TypedDict):
     """
     관리(Management) Workflow의 상태를 정의하는 TypedDict 클래스
@@ -28,3 +31,18 @@ class ManagementState(TypedDict):
     response: Annotated[
         list, add_messages
     ]  # 응답 메시지 목록 (add_messages로 주석되어 메시지 추가 기능 제공)
+
+
+class CommentWorkflowState(BaseModel):
+    driver: Optional[WebDriver] = Field(default=None)
+    profile_url: str = Field(default="https://www.instagram.com/rozy.gram/")
+    post_links: List[str] = Field(default_factory=list)
+    current_post_url: Optional[str] = Field(default=None)
+    page_source: Optional[str] = Field(default=None)
+    comments: List[str] = Field(default_factory=list)
+    csv_filename: str = Field(default="instagram_comments.csv")
+
+    
+    response: Annotated[List[str], add_messages] = Field(default_factory=list)
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
