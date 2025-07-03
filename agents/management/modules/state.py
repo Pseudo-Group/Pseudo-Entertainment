@@ -13,7 +13,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from langgraph.graph.message import add_messages
 
 
-#@dataclass <- # TypedDict는 @dataclass와 함께 사용할 수 없어서 제거함
+#@dataclass <- # # TypedDict는 @dataclass와 함께 사용할 수 없어 오류가 발생해서 제거함
 class ManagementState(TypedDict):
     """
     관리(Management) Workflow의 상태를 정의하는 TypedDict 클래스
