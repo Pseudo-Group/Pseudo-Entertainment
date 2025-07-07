@@ -36,6 +36,36 @@ def refine_outfit_prompt_node(state):
     return {**state, "refined_outfit_prompt": image_prompt}
 
 
+def refine_outfit_prompt_with_llm_node(state):
+    """
+    LLM을 활용하여 생성된 의상 프롬프트를 이미지 생성에 적합한 한 문단으로 정제하는 노드
+
+    이 노드는 outfit_prompt 필드에 저장된 스타일링 설명을 받아,
+    이미지 생성 모델이 이해하기 좋은 영어 묘사로 재구성합니다.
+    """
+
+    from langchain.chains import LLMChain
+    from langchain.prompts import PromptTemplate
+
+    from agents.image.modules.chains import get_llm
+
+    prompt_template = PromptTemplate.from_template(
+        "다음은 의상 스타일링 결과입니다.\n\n{raw_prompt}\n\n"
+        "위 결과에서 '**Image Generation Prompt:**' 문단만 참고하여 아래 요구를 따르세요:\n"
+        "- 하나의 문장만 생성하세요.\n"
+        "- 문장 외의 설명, 인삿말, 주석은 절대 포함하지 마세요.\n"
+        "- 인물과 의상을 구체적으로 묘사하세요.\n"
+        "- 영어로 작성하세요.\n"
+        "단 하나의 문장만 출력하세요."
+    )
+
+    chain = LLMChain(llm=get_llm(), prompt=prompt_template)
+    raw_prompt = state["outfit_prompt"]
+    refined_prompt = chain.run({"raw_prompt": raw_prompt})
+
+    return {**state, "refined_outfit_prompt": refined_prompt.strip()}
+
+
 # from agents.base_node import BaseNode
 
 # from agents.image.modules.chains import set_image_generation_chain

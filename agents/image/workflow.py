@@ -11,6 +11,7 @@ from agents.base_workflow import BaseWorkflow
 from agents.image.modules.nodes import (
     generate_outfit_prompt_node,
     refine_outfit_prompt_node,
+    refine_outfit_prompt_with_llm_node,
 )
 from agents.image.modules.state import ImageState
 
@@ -50,11 +51,15 @@ class ImageWorkflow(BaseWorkflow):
 
         # 의상 프롬프트 생성 노드 추가
         builder.add_node("generate_outfit_prompt", generate_outfit_prompt_node)
-        builder.add_node("refine_outfit_prompt", refine_outfit_prompt_node)
+        builder.add_node("refine_prompt_rule", refine_outfit_prompt_node)
+        builder.add_node("refine_prompt_llm", refine_outfit_prompt_with_llm_node)
 
         builder.add_edge("__start__", "generate_outfit_prompt")
-        builder.add_edge("generate_outfit_prompt", "refine_outfit_prompt")
-        builder.add_edge("refine_outfit_prompt", "__end__")
+        builder.add_edge("generate_outfit_prompt", "refine_prompt_rule")
+        builder.add_edge("generate_outfit_prompt", "refine_prompt_llm")
+
+        builder.add_edge("refine_prompt_rule", "__end__")
+        builder.add_edge("refine_prompt_llm", "__end__")
 
         workflow = builder.compile()  # 그래프 컴파일
         workflow.name = self.name  # Workflow 이름 설정

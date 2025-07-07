@@ -32,6 +32,14 @@ def get_outfit_prompt_chain():
     return LLMChain(llm=llm, prompt=outfit_prompt_template)
 
 
+def get_llm():
+    return ChatGroq(
+        api_key=SecretStr(os.getenv("GROQ_API_KEY") or ""),
+        model="llama3-8b-8192",
+        temperature=0,
+    )
+
+
 # def set_image_generation_chain() -> RunnableSerializable:
 #     """
 #     이미지 생성에 사용할 LangChain 체인을 생성합니다.
