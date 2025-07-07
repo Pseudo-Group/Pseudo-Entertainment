@@ -7,10 +7,10 @@
 from langchain_core.prompts import PromptTemplate
 
 outfit_prompt_template = PromptTemplate.from_template(
-    "당신은 의상 스타일링 전문가입니다. 사용자의 요청은 '{user_request}'입니다. "
-    "계절, 장소, 분위기에 어울리는 옷 스타일을 구체적으로 제안해주세요."
-    "이미지 생성에 필요한 의상 스타일링 프롬프트를 작성해주세요. "
-    "프롬프트는 영어로 작성되어야 합니다.   "
+    "You are a fashion styling expert. The user's request is: '{user_request}'.\n"
+    "Please describe an outfit suitable for the season, location, and mood in detail.\n"
+    "At the end of your response, include a section titled 'Image Generation Prompt:' and write one paragraph in English that vividly describes the outfit for an AI image generation model.\n"
+    "Make sure the description includes gender, age, outfit elements, accessories, and setting.\n"
 )
 
 # def get_image_generation_prompt():
