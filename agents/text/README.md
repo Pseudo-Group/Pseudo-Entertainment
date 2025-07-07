@@ -46,7 +46,7 @@ text/
 
 ```bash
 $ chmod +x agents/text/text_agent.sh
-$ agents/text/text_agents.sh
+$ agents/text/text_agent.sh
 ```
 
 > 로컬 포트에 이미 연결된 프로세스가 존재하는 경우, 다음과 같은 문구가 CLI 창에 출력됩니다.
