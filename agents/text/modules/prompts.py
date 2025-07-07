@@ -139,9 +139,9 @@ topic: """
     return PromptTemplate(
         template=prompt_template,
         input_variables=["news_article", "persona_details"],
+    )
 
-      
-      
+
 def get_persona_match_prompt() -> PromptTemplate:
     """
     Returns a prompt template to evaluate if a given text aligns with a provided persona.
