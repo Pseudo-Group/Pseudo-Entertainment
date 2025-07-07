@@ -5,12 +5,21 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 
 """
 
-from langchain.schema.runnable import RunnablePassthrough, RunnableSerializable
+from langchain.schema.runnable import (
+    RunnableLambda,
+    RunnableMap,
+    RunnablePassthrough,
+    RunnableSerializable,
+)
 from langchain_core.output_parsers import StrOutputParser
 
-from agents.text.modules.models import get_openai_model
+from agents.text.modules.models import get_groq_model, get_openai_model
 from agents.text.modules.persona import PERSONA
-from agents.text.modules.prompts import get_extraction_prompt, get_instagram_text_prompt
+from agents.text.modules.prompts import (
+    get_extraction_prompt,
+    get_instagram_text_prompt,
+    get_persona_match_prompt,
+)
 
 
 def set_extraction_chain() -> RunnableSerializable:
@@ -79,4 +88,90 @@ def set_instagram_text_chain() -> RunnableSerializable:
         | prompt  # 프롬프트 적용
         | model  # LLM 모델 호출
         | StrOutputParser()  # 결과를 문자열로 변환
+    )
+
+
+def set_instagram_text_format_check_chain() -> RunnableLambda:
+    """
+    인스타그램 포맷(2200자 이하) 검사를 위한 체인을 반환합니다.
+
+    Returns:
+        RunnableLambda: 텍스트 길이를 검사하는 실행 체인
+    """
+    return RunnableLambda(lambda x: len(x["text"]) <= 2200)
+
+
+def set_sensitive_text_check_chain() -> RunnableLambda:
+    def is_text_safe(x):
+        model = get_groq_model("meta-llama/llama-guard-4-12b")
+        try:
+            response = model.invoke(x["text"])
+            return "safe" in response.content.lower()
+        except Exception as e:
+            print(f"[ERROR] llama-guard request failed: {e}")
+        return False
+
+    return RunnableLambda(is_text_safe)
+
+
+def set_text_persona_match_check_chain() -> RunnableLambda:
+    def check_persona_match(x):
+        model = get_openai_model()
+
+        text = x["text"]
+        persona = x.get("persona", {})
+
+        # 다양한 타입의 persona_description 처리: dict, str, list
+        if isinstance(persona, dict):
+            persona_description = "\n".join([f"{k}: {v}" for k, v in persona.items()])
+        elif isinstance(persona, list):
+            persona_description = "\n".join([str(p) for p in persona])
+        else:
+            persona_description = str(persona)
+
+        prompt_template = get_persona_match_prompt()
+        prompt = prompt_template.format(
+            persona_description=persona_description, text=text
+        )
+
+        try:
+            response = model.invoke(prompt).content.strip().upper()
+            return "YES" in response
+        except Exception as e:
+            print(f"[ERROR] Persona check failed: {e}")
+            return False
+
+    return RunnableLambda(check_persona_match)
+
+
+def set_text_content_check_chain() -> RunnableSerializable:
+    return (
+        RunnablePassthrough.assign(
+            text=lambda x: x if isinstance(x, str) else x.get("instagram_text", ""),
+            persona=lambda x: (
+                x.get("persona_extracted", {}) if isinstance(x, dict) else {}
+            ),
+        )
+        | RunnableMap(
+            {
+                "format_check_passed": set_instagram_text_format_check_chain(),
+                "safety_check_passed": set_sensitive_text_check_chain(),
+                "persona_check_passed": set_text_persona_match_check_chain(),
+            }
+        )
+        | RunnableLambda(
+            lambda results: {
+                "text_content_checker_result": {
+                    "success": all(results.values()),
+                    "reason": [k for k, v in results.items() if not v],
+                    "content_check_passed": all(results.values()),
+                    **results,
+                    "message": (
+                        "Text content is valid."
+                        if all(results.values())
+                        else "Text content failed validation checks."
+                    ),
+                }
+            }
+        )
     )

@@ -5,7 +5,11 @@
 """
 
 from agents.base_node import BaseNode
-from agents.text.modules.chains import set_extraction_chain, set_instagram_text_chain
+from agents.text.modules.chains import (
+    set_extraction_chain,
+    set_instagram_text_chain,
+    set_text_content_check_chain,
+)
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.state import TextState
 
@@ -62,3 +66,36 @@ class GenTextNode(BaseNode):
         return {
             "instagram_text": instagram_text,
         }
+
+
+class TextContentCheckNode(BaseNode):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.chain = set_text_content_check_chain()
+
+    def execute(self, state: TextState) -> dict:
+        instagram_text = state.get("instagram_text", "")
+
+        # instagram_text가 빈 칸(또는 공백)일 때는 모든 체크를 스킵하고 성공 결과 리턴
+        if not instagram_text or not instagram_text.strip():
+            result = {
+                "text_content_checker_result": {
+                    "success": True,
+                    "reason": [],
+                    "content_check_passed": True,
+                    "format_check_passed": True,
+                    "safety_check_passed": True,
+                    "persona_check_passed": True,
+                    "message": "Skipped checks because text_content is empty.",
+                }
+            }
+            state.update(result)
+            return result
+
+        input_data = {
+            "response": state.get("response", [""]),
+            "persona_extracted": state.get("persona_extracted", {}),
+        }
+        result = self.chain.invoke(input_data)
+        state.update(result)
+        return result
