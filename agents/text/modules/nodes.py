@@ -11,6 +11,7 @@ from agents.text.modules.chains import (
     set_extraction_chain,
     set_instagram_text_chain,
     set_topic_generation_news_chain,
+    set_text_content_check_chain,
 )
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.state import TextState
@@ -89,3 +90,36 @@ class TopicFromNewsNode(BaseNode):
             return {"response": result}
         except Exception as e:
             return {"response": f"뉴스 검색 중 오류가 발생했습니다: {str(e)}"}
+
+          
+class TextContentCheckNode(BaseNode):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.chain = set_text_content_check_chain()
+
+    def execute(self, state: TextState) -> dict:
+        instagram_text = state.get("instagram_text", "")
+
+        # instagram_text가 빈 칸(또는 공백)일 때는 모든 체크를 스킵하고 성공 결과 리턴
+        if not instagram_text or not instagram_text.strip():
+            result = {
+                "text_content_checker_result": {
+                    "success": True,
+                    "reason": [],
+                    "content_check_passed": True,
+                    "format_check_passed": True,
+                    "safety_check_passed": True,
+                    "persona_check_passed": True,
+                    "message": "Skipped checks because text_content is empty.",
+                }
+            }
+            state.update(result)
+            return result
+
+        input_data = {
+            "response": state.get("response", [""]),
+            "persona_extracted": state.get("persona_extracted", {}),
+        }
+        result = self.chain.invoke(input_data)
+        state.update(result)
+        return result

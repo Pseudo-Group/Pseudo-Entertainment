@@ -11,6 +11,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "langchain-mcp-adapters>=0.0.9",
+    "langchain-groq>=0.3.2",
     "langchain-openai>=0.3.12",
     "mcp>=1.6.0",
     "newsapi-python>=0.2.7",
