@@ -4,6 +4,7 @@ from agents.base_workflow import BaseWorkflow
 from agents.text.modules.nodes import (
     GenTextNode,
     PersonaExtractionNode,
+    TopicFromNewsNode,
     TextContentCheckNode,
 )
 from agents.text.modules.state import TextState
@@ -33,7 +34,8 @@ class TextWorkflow(BaseWorkflow):
             CompiledStateGraph: 컴파일된 상태 그래프 객체
         """
         builder = StateGraph(self.state)
-        # 페르소나 추출 노드 추가
+
+        builder.add_node("topic_from_news", TopicFromNewsNode())
         builder.add_node("persona_extraction", PersonaExtractionNode())
 
         # 텍스트 생성 노드 추가
@@ -43,7 +45,8 @@ class TextWorkflow(BaseWorkflow):
         builder.add_node("text_content_check", TextContentCheckNode())
 
         # 시작 노드에서 페르소나 추출 노드로 연결
-        builder.add_edge("__start__", "persona_extraction")
+        builder.add_edge("__start__", "topic_from_news")
+        builder.add_edge("topic_from_news", "persona_extraction")
         # 페르소나 추출 노드에서 텍스트 생성 노드로 연결
         builder.add_edge("persona_extraction", "text_generation")
         # 텍스트 생성 노드에서 텍스트 컨텐츠 체커 노드로 연결

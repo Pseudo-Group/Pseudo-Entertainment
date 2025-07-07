@@ -5,19 +5,23 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 
 """
 
-from langchain.schema.runnable import (
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import (
     RunnableLambda,
     RunnableMap,
     RunnablePassthrough,
     RunnableSerializable,
 )
-from langchain_core.output_parsers import StrOutputParser
 
+from agents.text.mcp.mcp_client import scrape_news
 from agents.text.modules.models import get_groq_model, get_openai_model
 from agents.text.modules.persona import PERSONA
 from agents.text.modules.prompts import (
     get_extraction_prompt,
     get_instagram_text_prompt,
+    get_news_scraping_query_prompt,
+    get_topic_from_news_prompt,
     get_persona_match_prompt,
 )
 
@@ -55,6 +59,35 @@ def set_extraction_chain() -> RunnableSerializable:
         | prompt  # 프롬프트 적용
         | model  # LLM 모델 호출
         | StrOutputParser()  # 결과를 문자열로 변환
+    )
+
+
+def set_topic_generation_news_chain() -> RunnableSerializable:
+    """
+    뉴스로부터 텍스트 콘텐츠 주제를 추출하는 LangChain 체인을 생성합니다.
+    """
+    news_scraping_query_prompt = get_news_scraping_query_prompt()
+    model = get_openai_model()
+
+    # 문자열 입력을 딕셔너리로 변환
+    input_transformer = RunnableLambda(lambda x: {"content_topic": x})
+
+    news_scraping_query_chain = (
+        input_transformer
+        | RunnablePassthrough.assign(content_topic=lambda x: x["content_topic"])
+        | news_scraping_query_prompt
+        | model
+        | StrOutputParser()  # 결과를 문자열로 변환
+    )
+
+    return (
+        news_scraping_query_chain
+        | RunnableLambda(scrape_news)
+        | RunnableLambda(lambda x: {"news_article": x})  # 반환값을 딕셔너리로 변환
+        | RunnablePassthrough.assign(persona_details=lambda x: PERSONA)
+        | get_topic_from_news_prompt()
+        | model
+        | StrOutputParser()
     )
 
 

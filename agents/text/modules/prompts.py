@@ -100,6 +100,48 @@ def get_instagram_text_prompt():
     )
 
 
+def get_news_scraping_query_prompt() -> PromptTemplate:
+    """
+    뉴스 스크래핑을 위한 프롬프트 템플릿을 생성합니다.
+    """
+    prompt_template = """You are **News Summary Agent** that search news articles based on given content topic:
+{content_topic}
+
+You have to summarize news articles based on given content topic for instagram post.
+
+News Summary: """
+
+    return PromptTemplate(
+        template=prompt_template,
+        input_variables=["content_topic"],
+    )
+
+
+def get_topic_from_news_prompt():
+    """
+    뉴스로부터 인스타그램 포스트 주제를 추출하는 프롬프트를 생성합니다.
+    """
+    prompt_template = """
+You are an assistant responsible for extracting a concise and engaging topic from a given news article.
+You have to generate a topic that is relevant to the news article and is suitable for an instagram post.
+Also topic must be aligned with given persona.
+
+Rules:
+- The topic must be short and clear.
+- It must be relevant to the news article.
+- Output only the topic—no extra text.
+
+news article: {news_article}
+persona: {persona_details}
+
+topic: """
+
+    return PromptTemplate(
+        template=prompt_template,
+        input_variables=["news_article", "persona_details"],
+    )
+
+
 def get_persona_match_prompt() -> PromptTemplate:
     """
     Returns a prompt template to evaluate if a given text aligns with a provided persona.
