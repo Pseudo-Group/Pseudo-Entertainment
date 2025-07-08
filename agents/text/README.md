@@ -2,7 +2,7 @@
 
 ## 개요
 
-이 모듈은 Pseudo Entertainment Company의 텍스트 기반 콘텐츠 생성을 담당하는 LangGraph Workflow입니다. 다양한 유형의 텍스트 콘텐츠를 생성하기 위한 주요 노드와 Workflow를 제공합니다.
+이 모듈은 Act 1: Entertainment의 텍스트 기반 콘텐츠 생성을 담당하는 LangGraph Workflow입니다. 다양한 유형의 텍스트 콘텐츠를 생성하기 위한 주요 노드와 Workflow를 제공합니다.
 
 ## 주요 노드
 
@@ -56,4 +56,4 @@ result = text_workflow().invoke(initial_state)
 
 ## 라이센스
 
-이 모듈은 Pseudo Group의 Pseudo Entertainment Company의 내부 프로젝트로, 그룹 정책에 따른 라이센스가 적용됩니다.
+이 모듈은 Proact0의 Act 1: Entertainment의 내부 프로젝트로, 그룹 정책에 따른 라이센스가 적용됩니다.
