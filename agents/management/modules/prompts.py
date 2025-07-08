@@ -84,3 +84,28 @@ Resource Management Plan:"""
             "resources_available",
         ],  # 프롬프트에 삽입될 변수들
     )
+
+
+def get_instagram_comment_analysis_prompt():
+    """
+    Returns a prompt template for analyzing Instagram comments in English, but output must be translated to Korean.
+    """
+    comment_analysis_template = """Below is a list of comments from an Instagram post. Please analyze these comments and summarize the following information in English:
+
+1. Overall sentiment (ratio of positive/negative/neutral)
+2. Main issues or discussion topics
+3. Representative examples of positive, negative, and neutral comments (one each)
+4. The general atmosphere and characteristics of the comments
+5. Any additional noteworthy points
+
+Comment List:
+{comments}
+
+Analysis:
+
+Translate all your output to Korean."""
+
+    return PromptTemplate(
+        template=comment_analysis_template,
+        input_variables=["comments"],
+    )
