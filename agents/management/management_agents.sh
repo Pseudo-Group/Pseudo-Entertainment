@@ -1,5 +1,7 @@
 #!/bin/bash
 # management 모듈 의존성 설치
+#cd /app/data/Pseudo-Entertainment
+#bash agents/management/management_agents.sh
 uv sync --package management
 
 # .env, agents/management/.env 파일에서 환경변수 불러오기 (주석/빈줄/이상한 줄 제외)
@@ -42,7 +44,7 @@ done
 kill_port "$LANGGRAPH_PORT"
 
 # contents_verify MCP 서버 실행
-uv run agents/management/mcp/mcp_contents_verify_server.py &
+uv run agents/management/modules/mcp/mcp_contents_verify_server.py &
 
 # LangGraph 서버 실행
 uv run langgraph dev --port "$LANGGRAPH_PORT" &

@@ -44,6 +44,7 @@ class ManagementWorkflow(BaseWorkflow):
         )
         builder.add_node("instagram_policies_search", InstagramPoliciesSearchNode())
         builder.add_node("content_risks_analysis", ContentRisksAnalysisNode())
+        builder.add_node("router", route_request)  # router 노드 추가
 
         # 시작 노드에서 라우터로 연결
         builder.add_edge("__start__", "router")
