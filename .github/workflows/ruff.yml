@@ -1,0 +1,24 @@
+name: Ruff Lint
+
+on: [push, pull_request]
+
+jobs:
+  ruff:
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies and Lint with Ruff
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          export PATH="$HOME/.local/bin:$PATH"
+          uv venv
+          uv pip install -r pyproject.toml
+          uv pip install ruff
+          uv run ruff check .

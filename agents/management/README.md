@@ -2,7 +2,7 @@
 
 ## 개요
 
-이 모듈은 Pseudo Entertainment Company의 콘텐츠 관리를 담당하는 LangGraph Workflow입니다. 프로젝트, 팀, 리소스의 관리와 크리에이터 직업 성장을 지원하기 위한 주요 노드와 Workflow를 제공합니다.
+이 모듈은 Act 1: Entertainment의 콘텐츠 관리를 담당하는 LangGraph Workflow입니다. 프로젝트, 팀, 리소스의 관리와 크리에이터 직업 성장을 지원하기 위한 주요 노드와 Workflow를 제공합니다.
 
 ## 주요 노드
 
