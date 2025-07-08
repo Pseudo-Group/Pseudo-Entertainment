@@ -18,15 +18,15 @@ Act 1: Entertainment는 LangGraph와 LangChain을 활용한 AI 기반 콘텐츠 
 
 - Python 3.11 이상
 - uv (의존성 관리)
-- Flake8, Black, Isort (PEP8 스타일 포맷팅)
+- ruff (코드 품질 검사, 코드 포맷팅, import 문 정렬)
 
 ### 설치 절차
 
 #### 1. 저장소 클론
 
 ```bash
-$ git clone https://github.com/Pseudo-Group/Pseudo-Entertainment.git
-$ cd pseudo-entertainment-company
+$ git clone https://github.com/Proact0/Act1-Entertainment.git
+$ cd Act1-Entertainment
 ```
 
 #### 2. uv 설치 (아직 설치되지 않은 경우)
@@ -76,10 +76,10 @@ $ uv sync --package <PACKAGE NAME>
 }
 ```
 
-#### 5. LangGraph 서버 실행
+#### 5. LangGraph 앱 실행
 
 ```bash
-$ uv run langgraph dev
+$ uvx --from "langgraph-cli[inmem]" --with-editable . langgraph dev
 ```
 
 ### 서버가 실행되면 다음 URL에서 접근할 수 있습니다:
@@ -110,9 +110,7 @@ $ uv run langgraph dev
 
 프로젝트는 pre-commit을 사용하여 코드 스타일과 품질을 관리합니다. 다음 툴들이 자동으로 실행됩니다:
 
-- **flake8**: 코드 품질 검사
-- **black**: 코드 포맷팅
-- **isort**: import 문 정렬
+- **ruff**: 코드 품질 검사, 코드 포맷팅, import 문 정렬
 - **uv-lock**: 의존성 파일 동기화
 
 #### pre-commit 설정
@@ -140,8 +138,3 @@ $ git commit -m "your commit message"
 > - pre-commit은 커밋 전에 자동으로 실행되며, 검사에 실패하면 커밋이 중단됩니다. 모든 검사를 통과해야만 커밋이 완료됩니다.
 > - VSCode나 Cursor의 Git Graph를 사용하여 커밋할 때도 pre-commit이 자동으로 실행됩니다.
 > - Git 클라이언트와 관계없이 모든 커밋 시점에서 pre-commit이 동작합니다.
-
-### 💡 **NOTE**:
-
-- 형식 및 가이드에 맞춰서 Commit Message, Issue, Pull Request를 작성해주세요. 상세 설명은 [여기(내부 링크)](https://www.notion.so/hon2ycomb/Git-Commit-Message-Convention-1b000c82b1388185aa3cf88a7e57f24c?pvs=4)를 참조하세요 :)
-- 본 프로젝트에서 PR 후 merge하는 경우, github action으로 포맷팅 검사를 진행합니다. vscode 및 cursor에서 포맷팅 세팅은 [여기](https://gamchan.notion.site/vscode-9b61026771cb4121bbb80d4d4f289bc2)를 참조하세요 :)

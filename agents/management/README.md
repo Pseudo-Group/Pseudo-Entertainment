@@ -2,7 +2,7 @@
 
 ## 개요
 
-이 모듈은 Pseudo Entertainment Company의 콘텐츠 관리를 담당하는 LangGraph Workflow입니다. 프로젝트, 팀, 리소스의 관리와 크리에이터 직업 성장을 지원하기 위한 주요 노드와 Workflow를 제공합니다.
+이 모듈은 Act 1: Entertainment의 콘텐츠 관리를 담당하는 LangGraph Workflow입니다. 프로젝트, 팀, 리소스의 관리와 크리에이터 직업 성장을 지원하기 위한 주요 노드와 Workflow를 제공합니다.
 
 ## 주요 노드
 
@@ -58,6 +58,7 @@ result = management_workflow().invoke(initial_state)
 
 ## 라이센스
 
+<<<<<<< HEAD
 이 모듈은 Pseudo Group의 Pseudo Entertainment Company의 내부 프로젝트로, 그룹 정책에 따른 라이센스가 적용됩니다.
 
 # 인스타그램 API 워크플로우
@@ -189,3 +190,6 @@ python agents/management/test_instagram_workflow.py
 - 네트워크 연결 오류
 
 각 노드에서 발생하는 오류는 적절한 에러 메시지와 함께 처리됩니다.
+=======
+이 모듈은 Proact0의 Act 1: Entertainment의 내부 프로젝트로, 그룹 정책에 따른 라이센스가 적용됩니다.
+>>>>>>> b1d55b8490d69551c6e56e00b36ca68e030e7abc

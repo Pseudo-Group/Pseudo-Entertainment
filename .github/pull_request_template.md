@@ -1,12 +1,3 @@
----
-name: Pull Request
-about: 새로운 기능 추가, 버그 수정, 리팩토링 등
-title: "[#Issue Number] PR Title"
-labels: ''
-assignees: ''
-
----
-
 ## 📝 Summary
 
 <!--
