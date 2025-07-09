@@ -8,9 +8,10 @@ from agents.base_node import BaseNode
 from agents.music.modules.prompts import get_lyric_template, get_diary_template, get_query_extraction_template, get_youtube_query_template, get_youtube_analysis_template
 from agents.music.modules.state import MusicState
 from agents.music.modules.models import get_openai_model, get_gemini_client, get_youtube_client
-
+from agents.music.modules.tools.weather import WeatherService
 from googleapiclient.discovery import build
 from google import genai
+
 
 class DiaryGenerationNode(BaseNode):
     """
@@ -26,11 +27,11 @@ class DiaryGenerationNode(BaseNode):
         일기 생성 노드 실행
         """
         self.logging("execute", input_state=state)
-        first_prompt = get_diary_template().format(query=state["query"])
+        first_prompt = get_diary_template().format(query=state["diary_query"])
         diary_topic_response = self.model.invoke(first_prompt)
         diary_topic_response = diary_topic_response.text()
         
-        second_prompt = get_query_extraction_template().format(query=state["query"])
+        second_prompt = get_query_extraction_template().format(query=state["diary_query"])
         messages = [
             {
                 "role" : "user",
@@ -48,12 +49,6 @@ class DiaryGenerationNode(BaseNode):
         query_response = self.model.invoke(messages)
         query_response = query_response.text()
         
-        # if "varying_data" not in state:
-        #     state["varying_data"] = {}
-        
-        # state["varying_data"]["youtube_query"] = query_response
-
-        # return {"response" : query_response, "query": state["query"], "varying" : state["varying_data"]}
         return {"youtube_query" : query_response}
 
     def __call__(self, state):
@@ -62,31 +57,6 @@ class DiaryGenerationNode(BaseNode):
         """
         return self.execute(state)
 
-
-class LyricGenerationNode(BaseNode):
-    """
-    가사 생성 노드
-    """
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.model = get_openai_model()
-    
-    def execute(self, state: MusicState) -> dict:
-        """
-        가사 생성 노드 실행
-        """
-        self.logging("execute", input_state=state)
-        prompt = get_lyric_template().format(query=state["query"])
-        response = self.model.invoke(prompt)
-        return {"response": response, "query": state["query"]}
-
-    def __call__(self, state: MusicState) -> dict:
-        """
-        노드를 함수처럼 호출 가능하게 만드는 메서드
-        """
-        return self.execute(state)
-    
 
 class YoutubeSearchNode(BaseNode):
     """
@@ -118,9 +88,6 @@ class YoutubeSearchNode(BaseNode):
             video_id = str(item['id']['videoId'])
             videos.append("https://www.youtube.com/watch?v=" + video_id)
         
-        # state["varying_data"]["video_url"] = videos[0]
-
-        # return {"response": videos[0], "query": state["query"], "varying" : state["varying_data"]} #검색 결과 영상들 중 첫 번째만 반환
         return {"video_url" : videos[0]}
 
     def __call__(self, state):
@@ -144,7 +111,7 @@ class YoutubeAnalysisNode(BaseNode):
         유튜브 영상 분석 노드 실행
         """
         self.logging("execute", input_state = state)
-        prompt = get_youtube_analysis_template().format(query=state["query"])
+        prompt = get_youtube_analysis_template().format(query=state["diary_query"])
         video_link = state["video_url"]
         response = self.model.models.generate_content(
             model='models/gemini-2.0-flash',
@@ -157,11 +124,65 @@ class YoutubeAnalysisNode(BaseNode):
                 ]
             )
         )
-        # response = response["candidates"]["content"]["parts"][0]["text"]
-        # return {"response" : response, "query" : state["query"], "varying" : state["varying_data"]}
+
         return {"video_analysis" : response.text}
 
     def __call__(self, state):
+        """
+        노드를 함수처럼 호출 가능하게 만드는 메서드
+        """
+        return self.execute(state)
+    
+
+class LyricGenerationNode(BaseNode):
+    """
+    가사 생성 노드
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.model = get_openai_model()
+    
+    def execute(self, state: MusicState) -> dict:
+        """
+        가사 생성 노드 실행
+        """
+        self.logging("execute", input_state=state)
+        prompt = get_lyric_template().format(
+            query=state["lyric_query"], 
+            weather_info=state["weather_info"], 
+            video_analysis=state["video_analysis"]
+        )
+        response = self.model.invoke(prompt)
+        return {"response": response, "query": state["lyric_query"]}
+
+    def __call__(self, state: MusicState) -> dict:
+        """
+        노드를 함수처럼 호출 가능하게 만드는 메서드
+        """
+        return self.execute(state)
+    
+
+class WeatherGenerationNode(BaseNode):
+    """
+    날씨 정보 생성 노드
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.weather_service = WeatherService()
+
+    def execute(self, state: MusicState) -> dict:
+        """
+        날씨 정보 생성 노드 실행
+        """
+        self.logging("execute", input_state=state)
+        
+        # 날씨 정보 가져오기
+        weather_info = self.weather_service.get_current_weather() 
+        return {"weather_info": weather_info}
+
+    def __call__(self, state: MusicState) -> dict:
         """
         노드를 함수처럼 호출 가능하게 만드는 메서드
         """
