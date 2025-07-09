@@ -57,6 +57,7 @@ class MusicWorkflow(BaseWorkflow):
 
         return workflow
 
+music_workflow = MusicWorkflow(MusicState)
 
 if __name__ == "__main__":
     diary_query = input("일기 생성용 입력: ")
