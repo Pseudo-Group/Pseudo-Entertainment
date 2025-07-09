@@ -8,8 +8,7 @@ LangGraph의 상태 관리를 위한 클래스를 포함합니다.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Annotated, TypedDict
-
+from typing import Annotated, TypedDict, Any, Dict
 from langgraph.graph.message import add_messages
 
 
@@ -22,7 +21,13 @@ class MusicState(TypedDict):
     LangGraph의 상태 관리를 위한 클래스로, Workflow 내에서 처리되는 데이터의 형태와 구조를 지정합니다.
     """
 
-    query: str  # 사용자 쿼리 또는 요청사항
+    diary_query: str
+    lyric_query: str
     response: Annotated[
         list, add_messages
     ]  # 응답 메시지 목록 (add_messages로 주석되어 메시지 추가 기능 제공)
+    weather_info: str # 날씨 정보 제공
+    youtube_query: str
+    video_url: str
+    video_analysis: str
+    aggregate: Annotated[list, add_messages]
