@@ -6,14 +6,15 @@ from langchain_openai import ChatOpenAI
 
 from google import genai
 from googleapiclient.discovery import build
+from dotenv import load_dotenv
+import os 
 
-import os
+load_dotenv()
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 YOUTUBE_API_SERVICE_NAME = os.getenv("YOUTUBE_API_SERVICE_NAME")
 YOUTUBE_API_VERSION = os.getenv("YOUTUBE_API_VERSION")
-
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 def get_openai_model(temperature=0.7, top_p=0.9):
     """
