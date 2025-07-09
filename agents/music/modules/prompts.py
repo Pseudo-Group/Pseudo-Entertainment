@@ -35,6 +35,9 @@ lyric_template = base_template + """
 - 표현 방식: 시각적 색채와 촉각적 느낌을 결합해 감각적으로 전달
 - 레퍼런스: 이바다, 김사월, 신해경
 
+오늘의 날씨 : {weather_info}
+유투브 분석 내용 : {video_analysis}
+
 이제 다음 주제로 가사를 써줘: {query}
 """
 
@@ -82,7 +85,7 @@ def get_lyric_template() -> PromptTemplate:
     """가사 템플릿 반환"""
     return PromptTemplate(
         template=lyric_template,
-        input_variables=["query"],
+        input_variables=["weather_info", "video_analysis", "query"],
     )
 
 def get_diary_template() -> PromptTemplate:
