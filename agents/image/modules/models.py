@@ -42,6 +42,5 @@ def get_gemini_model(temperature=0.5):
 
     return ChatGoogleGenerativeAI(
         model="gemini-2.0-flash-exp-image-generation",
-        temperature=temperature,
         google_api_key=api_key
     )

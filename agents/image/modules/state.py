@@ -22,5 +22,6 @@ class ImageState(TypedDict):
     LangGraph의 상태 관리를 위한 클래스로, Workflow 내에서 처리되는 데이터의 형태와 구조를 지정합니다.
     """
 
-    purpose: str  # 사용자 쿼리 또는 요청사항
-    text : str
+    content_topic: str  # 사용자 쿼리 또는 요청사항
+    content_type : str
+    persona : str

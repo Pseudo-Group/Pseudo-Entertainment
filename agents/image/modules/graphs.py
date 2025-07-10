@@ -7,6 +7,7 @@ from langchain_core.output_parsers import StrOutputParser
 from agents.image.modules.models import get_gemini_model
 from agents.image.modules.prompts import get_image_generation_prompt, get_text_response_prompt
 from agents.image.modules.state import ImageState
+from agents.image.modules.chains import set_image_generation_chain
 
 import base64
 
