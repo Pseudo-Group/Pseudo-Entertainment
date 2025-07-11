@@ -1,9 +1,7 @@
 {
   "dependencies": ["."],
   "graphs": {
-    "main": "./agents/workflow.py:main_workflow",
-    "management": "./agents/management/workflow.py:management_workflow",
-"comments": "./agents/management/workflow.py:comments_workflow"
+    "comments": "./agents/collect_comments/workflow.py:collect_comments_workflow"
   },
   "env": ".env"
 }

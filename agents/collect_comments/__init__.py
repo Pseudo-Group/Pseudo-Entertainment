@@ -1,12 +1,12 @@
 """
-Management 패키지 초기화 모듈
+collect_comments 패키지 초기화 모듈
 
-이 모듈은 Management Workflow를 외부에 노출시키는 역할을 합니다.
+이 모듈은 collect_comments Workflow를 외부에 노출시키는 역할을 합니다.
 """
 
-from agents.management.workflow import management_workflow, comments_workflow
+from agents.collect_comments.workflow import collect_comments_workflow
 
-__all__ = ["management_workflow","comments_workflow"]
+__all__ = ["collect_comments_workflow"]
 
 
 """
@@ -18,10 +18,10 @@ config 옵션으로 recursion_limit 값을 충분히 크게 설정하면
 게시물 끝까지 모든 반복을 실행할 수 있습니다.
 
 예시:
-from .modules.state import CommentWorkflowState
-compiled = comments_workflow()
+from .modules.state import CollectCommentsState
+compiled = collect_comments_workflow()
 result = compiled.invoke(
-    CommentWorkflowState(profile_url="https://instagram.com/rozy.gram/"),
+    CollectCommentsState(profile_url="https://instagram.com/rozy.gram/"),
     config={"recursion_limit": 50}
 )
 
